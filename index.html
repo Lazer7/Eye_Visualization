@@ -19,7 +19,43 @@
 </head>
 
 <body>
-    <div> I want to be a beautiful webpage someday!</div>
+    <div class="columns">
+        <!-- This section is the context menu HTML -->
+        <div class="column is-2">
+            <div class="context-menu hero is-fullheight">
+                <aside class="menu">
+                    <p class="menu-label">
+                        Eye Tracking Visualization
+                    </p>
+                    <ul class="menu-list">
+                        <li><a onclick="load('Time_Visualization')">Time Path Comparison</a></li>
+                        <li><a onclick="load('Convex_Visualization')">Convex Hull Comparison</a></li>
+                        <li><a onclick="load('Participant_Visualization')">Participant Completion Comparison</a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
+        <!-- End of context menu HTML -->
+        <!-- This section is the Visualization Code for every visualization image we are creating -->
+        <div class="column">
+            <div id="Time_Visualization" class="start"> Time Visualization </div>
+            <div id="Convex_Visualization" class="default"> Convex Visualization </div>
+            <div id="Participant_Visualization" class="default">Participant Completion Visualization</div>
+        </div>
+        <!-- End of Visualization Section -->
+    </div>
+
+
+    <!-- Javascript Section -->
+    <!-- Embedded Javscript for the context menu-->
+    <script>
+        function load(id) {
+            document.getElementById("Time_Visualization").style.display = "none";
+            document.getElementById("Convex_Visualization").style.display = "none";
+            document.getElementById("Participant_Visualization").style.display = "none";
+            document.getElementById(id).style.display = "block";
+        }
+    </script>
 </body>
 
 </html>
@@ -27,5 +63,35 @@
 
 <!-- Styling for the page -->
 <style>
+    html {
+        background-image: linear-gradient(#a5c0ee, #fbc5ec);
+    }
 
+    .columns,
+    .column {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Context Menu CSS */
+    .context-menu {
+        background-color: #3d3d3d;
+        padding: 5% 5% 5% 5%;
+    }
+
+    .menu * {
+        color: #ffffff !important;
+    }
+
+    .start {
+        display: block;
+    }
+
+    .default {
+        display: none;
+    }
+
+    .top-spacing {
+        margin-top: 2%;
+    }
 </style>
