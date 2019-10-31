@@ -1,0 +1,320 @@
+10027	LMouseButton	1	406	716	
+12299	LMouseButton	1	527	786	
+17522	LMouseButton	1	983	653	
+18429	LMouseButton	1	982	653	
+23323	LMouseButton	1	970	749	
+25227	LMouseButton	1	1074	634	
+29453	LMouseButton	1	882	623	
+39790	LMouseButton	1	534	220	
+41285	LMouseButton	1	609	220	
+42083	LMouseButton	1	592	240	
+46757	LMouseButton	1	574	238	
+52758	LMouseButton	1	362	900	
+62038	LMouseButton	1	1020	759	
+66962	LMouseButton	1	1057	864	
+78107	LMouseButton	1	623	442	
+83031	LMouseButton	1	417	975	
+96379	LMouseButton	1	1117	822	
+96907	LMouseButton	1	1112	822	
+105729	LMouseButton	1	1000	905	
+108729	LMouseButton	1	1073	924	
+114571	LMouseButton	1	1137	929	
+117342	LMouseButton	1	1272	444	
+121319	LMouseButton	1	1272	439	
+125197	LMouseButton	1	1032	978	
+143330	LMouseButton	1	610	236	
+145334	LMouseButton	1	582	263	
+151216	LMouseButton	1	588	256	
+152023	LMouseButton	1	615	251	
+152940	LMouseButton	1	573	311	
+161563	LMouseButton	1	623	456	
+165411	LMouseButton	1	381	978	
+172030	LMouseButton	1	1268	443	
+175220	LMouseButton	1	1012	980	
+179755	LMouseButton	1	1268	443	
+182387	LMouseButton	1	818	485	
+186705	LMouseButton	1	1112	630	
+189854	LMouseButton	1	1145	975	
+192495	LMouseButton	1	1267	444	
+195795	LMouseButton	1	1040	983	
+198188	LMouseButton	1	1267	439	
+208356	LMouseButton	1	340	596	
+211796	LMouseButton	1	321	704	
+216799	LMouseButton	1	711	848	
+218574	LMouseButton	1	876	979	
+232640	LMouseButton	1	534	216	
+234335	LMouseButton	1	608	213	
+238682	LMouseButton	1	576	242	
+246298	LMouseButton	1	683	577	
+253037	LMouseButton	1	700	542	
+257962	LMouseButton	1	295	826	
+260305	LMouseButton	1	744	451	
+278558	LMouseButton	1	574	233	
+279375	LMouseButton	1	609	233	
+280561	LMouseButton	1	574	285	
+282984	LMouseButton	1	608	228	
+283901	LMouseButton	1	579	253	
+293530	LMouseButton	1	458	739	
+296950	LMouseButton	1	419	830	
+307207	LMouseButton	1	538	250	
+308553	LMouseButton	1	612	247	
+309461	LMouseButton	1	571	302	
+315024	LMouseButton	1	541	216	
+316130	LMouseButton	1	614	214	
+316978	LMouseButton	1	570	274	
+341362	LMouseButton	1	1045	547	
+351012	LMouseButton	1	670	789	
+352378	LMouseButton	1	672	782	
+355867	LMouseButton	1	862	977	
+359995	LMouseButton	1	743	796	
+368578	LMouseButton	1	747	577	
+370991	LMouseButton	1	688	479	
+373503	LMouseButton	1	683	479	
+376174	LMouseButton	1	865	982	
+380411	LMouseButton	1	465	232	
+385824	LMouseButton	1	610	228	
+386602	LMouseButton	1	590	278	
+396689	LMouseButton	1	318	798	
+418440	LMouseButton	1	579	250	
+419586	LMouseButton	1	613	249	
+420503	LMouseButton	1	569	306	
+426574	LMouseButton	1	228	902	
+434180	LMouseButton	1	930	980	
+450936	LMouseButton	1	283	655	
+452292	LMouseButton	1	253	615	
+453309	LMouseButton	1	253	615	
+457655	LMouseButton	1	305	776	
+459868	LMouseButton	1	335	683	
+461922	LMouseButton	1	229	706	
+465820	LMouseButton	1	350	765	
+469159	LMouseButton	1	478	719	
+471053	LMouseButton	1	472	716	
+473486	LMouseButton	1	458	719	
+474931	LMouseButton	1	404	726	
+476277	LMouseButton	1	368	767	
+480613	LMouseButton	1	503	975	
+484980	LMouseButton	1	790	643	
+486525	LMouseButton	1	889	668	
+488518	LMouseButton	1	892	566	
+489994	LMouseButton	1	883	564	
+497490	LMouseButton	1	897	946	
+499245	LMouseButton	1	927	868	
+513958	LMouseButton	1	571	217	
+514836	LMouseButton	1	607	215	
+516431	LMouseButton	1	581	265	
+546157	LMouseButton	1	586	238	
+547074	LMouseButton	1	608	230	
+547782	LMouseButton	1	594	262	
+560174	LMouseButton	1	765	612	
+561570	LMouseButton	1	762	618	
+565818	LMouseButton	1	974	757	
+566775	LMouseButton	1	968	756	
+571271	LMouseButton	1	660	630	
+585339	LMouseButton	1	518	248	
+586845	LMouseButton	1	610	248	
+587493	LMouseButton	1	576	276	
+603253	LMouseButton	1	292	675	
+604549	LMouseButton	1	388	561	
+605117	LMouseButton	1	381	560	
+608297	LMouseButton	1	434	833	
+610590	LMouseButton	1	380	560	
+613012	LMouseButton	1	359	581	
+617508	LMouseButton	1	275	619	
+629121	LMouseButton	1	992	684	
+632093	LMouseButton	1	1083	638	
+653824	LMouseButton	1	456	218	
+656177	LMouseButton	1	607	216	
+657074	LMouseButton	1	589	247	
+666186	LMouseButton	1	316	818	
+668698	LMouseButton	1	476	556	
+671101	LMouseButton	1	472	556	
+672726	LMouseButton	1	472	559	
+678837	LMouseButton	1	213	614	
+681279	LMouseButton	1	174	724	
+686104	LMouseButton	1	150	600	
+688706	LMouseButton	1	437	831	
+690640	LMouseButton	1	431	825	
+697210	LMouseButton	1	320	687	
+699233	LMouseButton	1	313	664	
+700778	LMouseButton	1	319	661	
+702473	LMouseButton	1	322	647	
+704407	LMouseButton	1	330	634	
+706321	LMouseButton	1	339	625	
+712213	LMouseButton	1	780	658	
+714615	LMouseButton	1	1083	639	
+717317	LMouseButton	1	969	752	
+721394	LMouseButton	1	840	664	
+725790	LMouseButton	1	918	653	
+729229	LMouseButton	1	800	765	
+763630	LMouseButton	1	900	772	
+767708	LMouseButton	1	863	753	
+771177	LMouseButton	1	811	803	
+775105	LMouseButton	1	869	737	
+779451	LMouseButton	1	928	980	
+783957	LMouseButton	1	925	977	
+788283	LMouseButton	1	572	230	
+789201	LMouseButton	1	610	230	
+790088	LMouseButton	1	574	293	
+798162	LMouseButton	1	317	472	
+800296	LMouseButton	1	399	590	
+816137	LMouseButton	1	578	246	
+816695	LMouseButton	1	611	248	
+818430	LMouseButton	1	556	278	
+827304	LMouseButton	1	436	803	
+828998	LMouseButton	1	477	455	
+832109	LMouseButton	1	372	590	
+833784	LMouseButton	1	373	618	
+835568	LMouseButton	1	471	553	
+838170	LMouseButton	1	424	539	
+841939	LMouseButton	1	228	563	
+844930	LMouseButton	1	159	540	
+845907	LMouseButton	1	171	551	
+847632	LMouseButton	1	195	558	
+849287	LMouseButton	1	207	561	
+851809	LMouseButton	1	230	561	
+858309	LMouseButton	1	968	844	
+860882	LMouseButton	1	1035	552	
+861540	LMouseButton	1	1036	555	
+864161	LMouseButton	1	960	981	
+866235	LMouseButton	1	1046	636	
+868737	LMouseButton	1	921	597	
+869983	LMouseButton	1	790	865	
+873024	LMouseButton	1	833	678	
+884829	LMouseButton	1	585	591	
+887949	LMouseButton	1	417	984	
+901018	LMouseButton	1	585	211	
+901945	LMouseButton	1	613	213	
+902803	LMouseButton	1	584	277	
+917786	LMouseButton	1	124	820	
+922811	LMouseButton	1	751	559	
+924635	LMouseButton	1	764	667	
+926270	LMouseButton	1	957	978	
+929101	LMouseButton	1	1271	438	
+948978	LMouseButton	1	209	270	
+950681	Keyboard	3	160	0	LShiftKey
+950730	Keyboard	3	85	0	U
+951105	Keyboard	3	78	0	n
+951470	Keyboard	3	73	0	i
+951835	Keyboard	3	86	0	v
+952150	Keyboard	3	69	0	e
+952348	Keyboard	3	82	0	r
+952584	Keyboard	3	83	0	s
+952970	Keyboard	3	73	0	i
+953127	Keyboard	3	84	0	t
+953341	Keyboard	3	89	0	y
+955209	LMouseButton	1	257	267	
+956902	Keyboard	3	160	0	LShiftKey
+957019	Keyboard	3	85	0	U
+957453	Keyboard	3	78	0	n
+957780	Keyboard	3	73	0	i
+958124	Keyboard	3	86	0	v
+958439	Keyboard	3	69	0	e
+958641	Keyboard	3	82	0	r
+958877	Keyboard	3	83	0	s
+961779	Keyboard	3	73	0	i
+961965	Keyboard	3	84	0	t
+962334	Keyboard	3	89	0	y
+970321	LMouseButton	1	128	817	
+975147	LMouseButton	1	854	752	
+984817	LMouseButton	1	856	984	
+992164	LMouseButton	1	990	983	
+995335	LMouseButton	1	854	763	
+998356	LMouseButton	1	1113	641	
+999382	LMouseButton	1	1020	685	
+1002044	LMouseButton	1	812	660	
+1003410	LMouseButton	1	1001	753	
+1008026	LMouseButton	1	530	592	
+1010668	LMouseButton	1	475	981	
+1013041	LMouseButton	1	467	807	
+1016959	LMouseButton	1	459	794	
+1018235	LMouseButton	1	461	804	
+1020814	LMouseButton	1	476	977	
+1022692	LMouseButton	1	387	849	
+1025453	LMouseButton	1	477	657	
+1026780	LMouseButton	1	463	650	
+1028165	LMouseButton	1	467	638	
+1031027	LMouseButton	1	461	634	
+1032791	LMouseButton	1	459	618	
+1034885	LMouseButton	1	480	538	
+1036322	LMouseButton	1	466	554	
+1037896	LMouseButton	1	459	596	
+1044675	LMouseButton	1	939	835	
+1046998	LMouseButton	1	830	854	
+1070856	LMouseButton	1	1022	687	
+1073617	LMouseButton	1	1106	608	
+1075452	LMouseButton	1	1000	754	
+1076937	LMouseButton	1	586	610	
+1081593	LMouseButton	1	548	980	
+1083089	LMouseButton	1	629	441	
+1084814	LMouseButton	1	453	979	
+1087227	LMouseButton	1	526	745	
+1088882	LMouseButton	1	522	743	
+1091534	LMouseButton	1	279	550	
+1092851	LMouseButton	1	249	552	
+1093708	LMouseButton	1	171	542	
+1096100	LMouseButton	1	128	656	
+1098623	LMouseButton	1	112	645	
+1104136	LMouseButton	1	261	592	
+1107466	LMouseButton	1	372	719	
+1110257	LMouseButton	1	981	594	
+1112849	LMouseButton	1	352	719	
+1114245	LMouseButton	1	338	716	
+1115471	LMouseButton	1	299	688	
+1130636	LMouseButton	1	982	600	
+1137984	LMouseButton	1	837	547	
+1139988	LMouseButton	1	831	541	
+1142470	LMouseButton	1	802	543	
+1143916	LMouseButton	1	778	513	
+1174173	LMouseButton	1	1007	632	
+1188400	LMouseButton	1	1107	707	
+1193096	LMouseButton	1	626	438	
+1194871	LMouseButton	1	313	443	
+1196038	LMouseButton	1	297	420	
+1199009	LMouseButton	1	305	430	
+1200205	LMouseButton	1	394	537	
+1204652	LMouseButton	1	296	433	
+1205689	LMouseButton	1	274	471	
+1207454	LMouseButton	1	533	645	
+1210894	LMouseButton	1	421	713	
+1212130	LMouseButton	1	417	724	
+1234351	LMouseButton	1	272	218	
+1235518	LMouseButton	1	158	247	
+1236275	LMouseButton	1	158	239	
+1237829	Keyboard	3	160	0	LShiftKey
+1238063	Keyboard	3	67	0	C
+1239333	Keyboard	3	79	0	o
+1240210	Keyboard	3	78	0	n
+1240563	Keyboard	3	70	0	f
+1240873	Keyboard	3	69	0	e
+1241072	Keyboard	3	82	0	r
+1241541	Keyboard	3	69	0	e
+1241760	Keyboard	3	78	0	n
+1242041	Keyboard	3	67	0	c
+1242269	Keyboard	3	69	0	e
+1245456	LMouseButton	1	265	233	
+1246304	Keyboard	3	160	0	LShiftKey
+1246803	Keyboard	3	160	0	LShiftKey
+1246841	Keyboard	3	160	0	LShiftKey
+1246879	Keyboard	3	160	0	LShiftKey
+1246920	Keyboard	3	160	0	LShiftKey
+1246957	Keyboard	3	160	0	LShiftKey
+1246992	Keyboard	3	67	0	C
+1247384	Keyboard	3	79	0	o
+1247724	Keyboard	3	78	0	n
+1248142	Keyboard	3	70	0	f
+1248391	Keyboard	3	69	0	e
+1248598	Keyboard	3	82	0	r
+1248779	Keyboard	3	69	0	e
+1248936	Keyboard	3	78	0	n
+1249217	Keyboard	3	67	0	c
+1249420	Keyboard	3	69	0	e
+1249702	Keyboard	3	32	0	Space
+1249941	Keyboard	3	160	0	LShiftKey
+1250151	Keyboard	3	83	0	S
+1250471	Keyboard	3	69	0	e
+1250740	Keyboard	3	83	0	s
+1250889	Keyboard	3	83	0	s
+1250983	Keyboard	3	73	0	i
+1251161	Keyboard	3	79	0	o
+1251421	Keyboard	3	78	0	n
+1253870	LMouseButton	1	517	249	
