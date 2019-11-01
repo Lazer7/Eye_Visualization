@@ -1,7 +1,7 @@
 const fs = require('fs')
 
-fs.readFile('p6.graphGZD.txt', 'utf8', function (err, contents) {
-    var data = contents.split('')
+fs.readFile('./Raw_Data/p6/p6.treeFXD.txt', 'utf8', function (err, contents) {
+    var data = contents.split('');
     var temp = "";
     var final = [];
     for (var i = 0; i < data.length; i++) {
@@ -12,7 +12,9 @@ fs.readFile('p6.graphGZD.txt', 'utf8', function (err, contents) {
             temp = temp + data[i]
         }
     }
-    createGZDJson(final);
+    // createGZDJson(final);
+    // createEVDJson(final);
+    createFXDJson(final);
 });
 
 
@@ -91,7 +93,7 @@ function createGZDJson(array) {
         GZD.push(json)
     }
     console.log(GZD.length)
-    fs.writeFile("p6graphGZD.json", JSON.stringify(GZD), function (err) {
+    fs.writeFile("p6treeGZD.json", JSON.stringify(GZD), function (err) {
         if (err) {
             return console.log(err);
         }

@@ -1,6 +1,6 @@
 const fs = require('fs')
-var data = require('./p6GZD.json')
-var fix = require('./p6graphFXD.json')
+var data = require('./json_data/p6/p6treeGZD.json')
+var fix = require('./json_data/p6/p6treeFXD.json')
 
 var counter = 0;
 var final = [];
@@ -35,7 +35,7 @@ for (var i = 0; i < final.length; i++) {
 
 
 
-fs.writeFile("p6graphGZD.js", JSON.stringify(finalResult), function (err) {
+fs.writeFile("p6treeGZD.js", JSON.stringify(finalResult), function (err) {
     if (err) {
         return console.log(err);
     }
