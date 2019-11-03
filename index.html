@@ -48,7 +48,7 @@
         <!-- End of context menu HTML -->
         <!-- This section is the Visualization Code for every visualization image we are creating -->
         <div class="column">
-            <div id="Time_Visualization" class="start"> Time Visualization </div>
+            <div id="Time_Visualization" class="default"> Time Visualization </div>
             <div id="Convex_Visualization" class="default"> Convex Visualization </div>
             <div id="Participant_Visualization" class="default">Participant Completion Visualization</div>
             <div id="Session_Overview" class="default">
@@ -78,7 +78,37 @@
                     </div>
                 </div>
             </div>
-            <div id="Time_Comparison" class="default">Participant Completion Visualization</div>
+
+            <div id="Time_Comparison" class="start">
+                <div class="title">Time Comparison Visualization</div>
+                <div>
+                    <label class="selector_label">Visualization:</label>
+                    <button id="Time_Comparison_Tree" class="button time_button_selected"
+                        onclick="refreshTimeComparisonChart(1)"><i class="fas fa-tree"></i> &nbsp;
+                        Tree
+                    </button>
+                    <button id="Time_Comparison_Graph" class="button" onclick="refreshTimeComparisonChart(2)"><i
+                            class="fas fa-project-diagram"></i>&nbsp;
+                        Graph
+                    </button>
+                    <label class="selector_label">Ontology:</label>
+                    <button id="Time_Comparison_General" class="button" onclick="refreshTimeComparisonChart(3)"><i
+                            class="fas fa-info-circle"></i> &nbsp;
+                        General
+                    </button>
+                    <button id="Time_Comparison_Expert" class="button" onclick="refreshTimeComparisonChart(4)"><i
+                            class="fas fa-atlas"></i>&nbsp;
+                        Expert
+                    </button>
+                    <div id="time_comparison_visualization_container">
+                        <canvas id="time_comparison_visualization" class="time_canvas"></canvas>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+
             <div id="Completion_Comparison" class="default">Participant Completion Visualization</div>
         </div>
         <!-- End of Visualization Section -->
@@ -108,7 +138,7 @@
         // Set current comparison to tree (Tree = 1 Graph = 2)
         var sessionOverviewComparisonType = 1;
         // Create the Radar Visualization on the Session Comparison Overview
-        refresh();
+        refreshSessionOverviewChart();
         // Title is the Title of the visualization
         // canvasElement is the element on the DOM we are drawing onto
         // The participant data
@@ -116,7 +146,7 @@
         function generateNewRadarChart(title, canvasElement, data, type) {
             var labels = []; // Participants
             var values = []; // Data Value
-            var timeAverage = 0; 
+            var timeAverage = 0;
             var successAverage = 0;
             // Data Processing (filtering for time or success percentage)
             data.forEach(element => {
@@ -171,7 +201,7 @@
 
         }
 
-        function refresh() {
+        function refreshSessionOverviewChart() {
             generateNewRadarChart("General Time Average", generalSessionTime, participants
                 .filter((e) => {
                     return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
@@ -202,7 +232,112 @@
                 sessionOverviewComparisonType = 2;
                 graph.className += " button_selected";
             }
-            refresh();
+            refreshSessionOverviewChart();
+        }
+    </script>
+    <!-- Embedded Javascript for Time_Comparison -->
+    <script>
+        var timeComparisonVisualizaton = document.getElementById("time_comparison_visualization");
+        // value 1 = Tree | value 2 = Graph | value 3 = General | value 4 = Expert
+        var timeVisualizationSelectorValue = 1;
+        createTimeComparisonChart();
+
+        function createTimeComparisonChart() {
+            var labels = [];
+            var values = [{
+                label: timeVisualizationSelectorValue >= 3 ? "Tree" : "General",
+                backgroundColor: "Red",
+                data: []
+
+            }, {
+                label: timeVisualizationSelectorValue >= 3 ? "Graph" : "Expert",
+                backgroundColor: "Blue",
+                data: []
+
+            }];
+            participants.forEach((participant) => {
+                // Show Tree and Graph Comparison
+                if (timeVisualizationSelectorValue >= 3) {
+                    var ontologySearchValue = timeVisualizationSelectorValue === 3 ? 1 : 2;
+                    if (participant.Ontologies === ontologySearchValue) {
+                        labels.push(participant.ID);
+                        if (participant.Visualization === 1) {
+                            values[0].data.push(participant.Time_On_Task);
+                            values[1].data.push(0);
+                        } else {
+                            values[0].data.push(0);
+                            values[1].data.push(participant.Time_On_Task);
+                        }
+                    }
+                }
+                // Show General and Expert Comparison
+                else {
+                    var visualizationSearchValue = timeVisualizationSelectorValue;
+                    if (participant.Visualization === visualizationSearchValue) {
+                        labels.push(participant.ID);
+                        if (participant.Ontologies === 1) {
+                            values[0].data.push(participant.Time_On_Task);
+                            values[1].data.push(0);
+                        } else {
+                            values[0].data.push(0);
+                            values[1].data.push(participant.Time_On_Task);
+                        }
+                    }
+                }
+            });
+            new Chart(timeComparisonVisualizaton, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: values,
+                    options: {
+                        barValueSpacing: 5,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                }
+                            }]
+                        }
+                    }
+                }
+
+            });
+
+        }
+
+        function refreshTimeComparisonChart(value) {
+            timeVisualizationSelectorValue = value;
+            var tree = document.getElementById("Time_Comparison_Tree");
+            var graph = document.getElementById("Time_Comparison_Graph");
+            var general = document.getElementById("Time_Comparison_General");
+            var expert = document.getElementById("Time_Comparison_Expert");
+            var container = document.getElementById("time_comparison_visualization_container");
+            tree.className = "button";
+            graph.className = "button";
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    tree.className = "button time_button_selected";
+                    break;
+                case 2:
+                    graph.className = "button time_button_selected";
+                    break;
+                case 3:
+                    general.className = "button time_button_selected";
+                    break;
+                case 4:
+                    expert.className = "button time_button_selected";
+                    break;
+            }
+            container.removeChild(timeComparisonVisualizaton);
+            var canvas = document.createElement('canvas');
+            canvas.id = "time_comparison_visualization";
+            canvas.className = "time_canvas";
+            container.appendChild(canvas);
+            timeComparisonVisualizaton = document.getElementById("time_comparison_visualization");
+            createTimeComparisonChart();
         }
     </script>
 </body>
@@ -215,11 +350,13 @@
     html {
         background-image: linear-gradient(#a5c0ee, #fbc5ec);
     }
+
     .columns,
     .column {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
     }
+
     .tile_canvas {
         width: 550px !important;
         height: 300px !important;
@@ -229,14 +366,17 @@
         margin-right: auto;
         display: block;
     }
+
     .space {
 
         margin: 1% 1% 1% 1%;
     }
+
     .juicy {
         background-color: #603F83FF;
         color: #FFFFFF;
     }
+
     .dark {
         background-color: #3d3d3d;
     }
@@ -245,21 +385,41 @@
     .context-menu {
         padding: 5% 5% 5% 5%;
     }
+
     .menu * {
         color: #ffffff !important;
     }
+
     .start {
         display: block;
     }
+
     .default {
         display: none;
     }
+
     .top-spacing {
         margin-top: 2%;
     }
 
     /* Session Comparison Overview CSS */
     .button_selected {
+        background-color: #603F83FF;
+        color: #FFFFFF;
+    }
+
+    /* Time Comparison CSS */
+    .time_canvas {
+        width: 1000px;
+    }
+
+    .selector_label {
+        font-size: 20px;
+        font-weight: bolder;
+        padding: 1% 1% 1% 1%;
+    }
+
+    .time_button_selected {
         background-color: #603F83FF;
         color: #FFFFFF;
     }
