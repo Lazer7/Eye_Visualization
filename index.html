@@ -41,6 +41,7 @@
                         <li><a onclick="load('Session_Overview')">Overview</a></li>
                         <li><a onclick="load('Time_Comparison')">Time Comparison</a></li>
                         <li><a onclick="load('Completion_Comparison')">Completion Comparison</a></li>
+                        <li><a onclick="load('Session_Comparison')">Session Comparison</a></li>
                     </ul>
                 </aside>
             </div>
@@ -126,6 +127,8 @@
                     </div>
                 </div>
             </div>
+
+            <div id="Session_Comparison" class="default"></div>
         </div>
         <!-- End of Visualization Section -->
     </div>
@@ -141,6 +144,7 @@
             document.getElementById("Session_Overview").style.display = "none";
             document.getElementById("Time_Comparison").style.display = "none";
             document.getElementById("Completion_Comparison").style.display = "none";
+            document.getElementById("Session_Comparison").style.display = "none";
             document.getElementById(id).style.display = "block";
         }
     </script>
