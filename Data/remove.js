@@ -2,8 +2,8 @@ const fs = require('fs')
 var jsonFolder = 'json_data'
 var filteredFolder  = 'filtered_data'
 
-var numberFolder = '/p1'
-var dataType = 'graph'
+var numberFolder = '/p16'
+var dataType = 'tree'
 
 var jsonDirectory = 'C:/Repository/Eye_Visualization/Data/' + jsonFolder + numberFolder + numberFolder + dataType + 'GZD.json'
 var filteredDirectory = 'C:/Repository/Eye_Visualization/Data/' + filteredFolder + numberFolder + numberFolder + dataType + 'GZD.js'
