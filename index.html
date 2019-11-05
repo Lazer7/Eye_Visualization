@@ -14,14 +14,16 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Load ChartsJS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
     <!-- data -->
-
+    <script src="Data/Others/participant_data.js"></script>
 </head>
 
 <body>
     <div class="columns">
         <!-- This section is the context menu HTML -->
-        <div class="column is-2">
+        <div class="column is-2 dark">
             <div class="context-menu hero is-fullheight">
                 <aside class="menu">
                     <p class="menu-label">
@@ -30,7 +32,16 @@
                     <ul class="menu-list">
                         <li><a onclick="load('Time_Visualization')">Time Path Comparison</a></li>
                         <li><a onclick="load('Convex_Visualization')">Convex Hull Comparison</a></li>
-                        <li><a onclick="load('Participant_Visualization')">Participant Completion Comparison</a></li>
+                        <li><a onclick="load('Participant_Visualization')">Participant Comparison</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Session Visualization
+                    </p>
+                    <ul class="menu-list">
+                        <li><a onclick="load('Session_Overview')">Overview</a></li>
+                        <li><a onclick="load('Time_Comparison')">Time Comparison</a></li>
+                        <li><a onclick="load('Completion_Comparison')">Completion Comparison</a></li>
+                        <li><a onclick="load('Session_Comparison')">Session Comparison</a></li>
                     </ul>
                 </aside>
             </div>
@@ -40,22 +51,604 @@
         <div class="column">
             <div id="Time_Visualization" class="start"> Time Visualization </div>
             <div id="Convex_Visualization" class="default"> Convex Visualization </div>
-            <div id="Participant_Visualization" class="default">Participant Completion Visualization</div>
+            <div id="Participant_Visualization" class="default">
+                <div class="title">Participant Overview</div>
+                <button id="Session_Comparison_Tree" class="button space button_selected"
+                    onclick="switchSessionOverview('Session_Comparison_Tree')"><i class="fas fa-tree"></i> &nbsp;
+                    Tree</button>
+                <button id="Session_Comparison_Graph" class="button space"
+                    onclick="switchSessionOverview('Session_Comparison_Graph')"><i class="fas fa-project-diagram"></i>
+                    &nbsp; Graph</button>
+                <div class="tile is-vertical is-ancestor">
+                    <div class="tile is-parent">
+                        <div id="General_Session_Time_Average_Container" class="tile notification juicy space">
+                            <canvas id="General_Session_Time_Average" class="tile_canvas"></canvas>
+                        </div>
+                        <div id="Expert_Session_Time_Average_Container" class="tile notification juicy space">
+                            <canvas id="Expert_Session_Time_Average" class="tile_canvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="tile is-parent">
+                        <div id="General_Session_Success_Average_Container" class="tile notification juicy space">
+                            <canvas id="General_Session_Success_Average" class="tile_canvas"></canvas>
+                        </div>
+                        <div id="Expert_Session_Success_Average_Container" class="tile notification juicy space">
+                            <canvas id="Expert_Session_Success_Average" class="tile_canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="Session_Overview" class="default">
+                <div class="title">Session Overview</div>
+                <div class="tile is-vertical is-ancestor">
+                    <div class="tile is-parent">
+                        <div id="session_overview_visualization_container" class="tile notification juicy space">
+                            <canvas id="session_overview_visualization_time" class="tile_canvas"></canvas>
+                        </div>
+                        <div id="session_overview_visualization_container" class="tile notification juicy space">
+                            <canvas id="session_overview_visualization_success" class="tile_canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="Time_Comparison" class="default">
+                <div class="title">Time Comparison Visualization</div>
+                <div>
+                    <label class="selector_label">Ontology:</label>
+                    <button id="Time_Comparison_General" class="button comparison_button_selected"
+                        onclick="refreshTimeComparisonChart(1)"><i class="fas fa-info-circle"></i> &nbsp;
+                        General
+                    </button>
+                    <button id="Time_Comparison_Expert" class="button" onclick="refreshTimeComparisonChart(2)"><i
+                            class="fas fa-atlas"></i>&nbsp;
+                        Expert
+                    </button>
+                    <div id="time_comparison_visualization_container">
+                        <canvas id="time_comparison_visualization" class="comparison_canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Completion_Comparison" class="default">
+                <div class="title">Completion Comparison Visualization</div>
+                <div>
+                    <label class="selector_label">Ontology:</label>
+                    <button id="Completion_Comparison_General" class="button comparison_button_selected"
+                        onclick="refreshCompletionComparisonChart(1)"><i class="fas fa-info-circle"></i> &nbsp;
+                        General
+                    </button>
+                    <button id="Completion_Comparison_Expert" class="button"
+                        onclick="refreshCompletionComparisonChart(2)"><i class="fas fa-atlas"></i>&nbsp;
+                        Expert
+                    </button>
+                    <div id="completion_comparison_visualization_container">
+                        <canvas id="completion_comparison_visualization" class="comparison_canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Session_Comparison" class="default"></div>
         </div>
         <!-- End of Visualization Section -->
     </div>
 
 
     <!-- Javascript Section -->
-    <!-- Embedded Javscript for the context menu-->
+    <!-- Embedded Javascript for the context menu-->
     <script>
         function load(id) {
             document.getElementById("Time_Visualization").style.display = "none";
             document.getElementById("Convex_Visualization").style.display = "none";
             document.getElementById("Participant_Visualization").style.display = "none";
+            document.getElementById("Session_Overview").style.display = "none";
+            document.getElementById("Time_Comparison").style.display = "none";
+            document.getElementById("Completion_Comparison").style.display = "none";
+            document.getElementById("Session_Comparison").style.display = "none";
             document.getElementById(id).style.display = "block";
         }
     </script>
+    <!-- Embedded Javascript for Participant_Overview-->
+    <script>
+        // Locating Session Visualization Overview canvas tiles
+        var generalSessionTime = document.getElementById("General_Session_Time_Average");
+        var generalSessionSuccess = document.getElementById("General_Session_Success_Average");
+        var expertSessionTime = document.getElementById("Expert_Session_Time_Average");
+        var expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
+        // Set current comparison to tree (Tree = 1 Graph = 2)
+        var sessionOverviewComparisonType = 1;
+        // Create the Radar Visualization on the Session Comparison Overview
+        refreshSessionOverviewChart();
+        // Title is the Title of the visualization
+        // canvasElement is the element on the DOM we are drawing onto
+        // The participant data
+        // Type is a bool value -> true = Time | false = Success
+        function generateNewRadarChart(title, canvasElement, data, type) {
+            var labels = []; // Participants
+            var values = []; // Data Value
+            var timeAverage = 0;
+            var successAverage = 0;
+            // Data Processing (filtering for time or success percentage)
+            data.forEach(element => {
+                labels.push(element.ID);
+                if (type) {
+                    values.push(element.Time_On_Task)
+                } else {
+                    values.push(element.Task_Success * 100)
+                }
+                timeAverage += element.Time_On_Task;
+                successAverage += (element.Task_Success * 100);
+            });
+            timeAverage = timeAverage / data.length;
+            successAverage = successAverage / data.length;
+            // Afix the average value onto the title
+            title = title + ": " + (type ? timeAverage.toFixed(2) + " min" : successAverage.toFixed(2) + "%");
+            new Chart(canvasElement, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: type ? "rgba(165, 192, 238, 0.5)" : "rgba(251, 197, 236, 0.5)",
+                        fillOpacity: .5,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scale: {
+                        pointLabels: {
+                            fontSize: 15,
+                            fontColor: "#FFFFFF"
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: type ? 50 : 100
+                        }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: title,
+                        fontSize: 30,
+                        fontColor: "#FFFFFF",
+                        fontStyle: "bolder",
+                        padding: 2
+                    }
+                }
+            });
+
+        }
+
+        function destroySessionOverviewCanvas(holder, containerName, canvasName) {
+            var container = document.getElementById(containerName);
+            container.removeChild(holder);
+            var canvas = document.createElement('canvas');
+            canvas.id = canvasName;
+            canvas.className = "tile_canvas";
+            container.appendChild(canvas);
+        }
+
+        function refreshSessionOverviewChart() {
+            destroySessionOverviewCanvas(generalSessionTime, "General_Session_Time_Average_Container",
+                "General_Session_Time_Average");
+            destroySessionOverviewCanvas(expertSessionTime, "Expert_Session_Time_Average_Container",
+                "Expert_Session_Time_Average");
+            destroySessionOverviewCanvas(generalSessionSuccess, "General_Session_Success_Average_Container",
+                "General_Session_Success_Average");
+            destroySessionOverviewCanvas(expertSessionSuccess, "Expert_Session_Success_Average_Container",
+                "Expert_Session_Success_Average");
+            generalSessionTime = document.getElementById("General_Session_Time_Average");
+            generalSessionSuccess = document.getElementById("General_Session_Success_Average");
+            expertSessionTime = document.getElementById("Expert_Session_Time_Average");
+            expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
+            generateNewRadarChart("General Time Average", generalSessionTime, participants
+                .filter((e) => {
+                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
+                }), true);
+            generateNewRadarChart("Expert Time Average", expertSessionTime, participants
+                .filter((e) => {
+                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
+                }), true);
+            generateNewRadarChart("General Success Average", generalSessionSuccess,
+                participants.filter((e) => {
+                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
+                }), false);
+            generateNewRadarChart("Expert Success Average", expertSessionSuccess,
+                participants.filter((e) => {
+                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
+                }), false);
+        }
+
+        function switchSessionOverview(type) {
+            var tree = document.getElementById("Session_Comparison_Tree");
+            var graph = document.getElementById("Session_Comparison_Graph");
+            tree.className = "button space";
+            graph.className = "button space"
+            if (type === "Session_Comparison_Tree") {
+                sessionOverviewComparisonType = 1;
+                tree.className += " button_selected";
+            } else {
+                sessionOverviewComparisonType = 2;
+                graph.className += " button_selected";
+            }
+            refreshSessionOverviewChart();
+        }
+    </script>
+    <!-- Embedded Javascript for Session_Overview -->
+    <script>
+        var session_overview_visualization_time = document.getElementById("session_overview_visualization_time");
+        var session_overview_visualization_success = document.getElementById("session_overview_visualization_success");
+        createSessionOverviewVisualization();
+
+        function createSessionOverviewVisualization() {
+            var generalTree = participants.filter((e) => {
+                return e.Ontologies === 1 && e.Visualization === 1;
+            });
+            var generalGraph = participants.filter((e) => {
+                return e.Ontologies === 1 && e.Visualization === 2;
+            });
+            var expertTree = participants.filter((e) => {
+                return e.Ontologies === 2 && e.Visualization === 1;
+            });
+            var expertGraph = participants.filter((e) => {
+                return e.Ontologies === 2 && e.Visualization === 2;
+            });
+
+            var gTreeTime = 0;
+            var gGraphTime = 0;
+            var gTreeSuccess = 0;
+            var gGraphSuccess = 0;
+            var eTreeTime = 0;
+            var eGraphTime = 0;
+            var eTreeSuccess = 0;
+            var eGraphSucess = 0;
+            var labels = ["Tree", "Graph"];
+            generalTree.forEach((e) => {
+                gTreeTime += e.Time_On_Task;
+                gTreeSuccess += (e.Task_Success * 100)
+            })
+            generalGraph.forEach((e) => {
+                gGraphTime += e.Time_On_Task;
+                gGraphSuccess += (e.Task_Success * 100)
+            })
+            expertTree.forEach((e) => {
+                eTreeTime += e.Time_On_Task;
+                eTreeSuccess += (e.Task_Success * 100);
+            })
+            expertGraph.forEach((e) => {
+                eGraphTime += e.Time_On_Task;
+                eGraphSucess += (e.Task_Success * 100);
+            })
+            gTreeTime /= generalTree.length;
+            gGraphTime /= generalGraph.length;
+            gTreeSuccess /= generalTree.length;
+            gGraphSuccess /= generalGraph.length;
+            eTreeTime /= expertTree.length;
+            eGraphTime /= expertGraph.length;
+            eTreeSuccess /= expertTree.length;
+            eGraphSucess /= expertGraph.length;
+            var generalDataSet = [{
+                label: "General",
+                backgroundColor: "blue",
+                data: [gTreeTime, eTreeTime]
+            }, {
+                label: "Expert",
+                backgroundColor: "red",
+                data: [gGraphTime, eGraphTime]
+            }];
+            var expertDataSet = [{
+                label: "General",
+                backgroundColor: "blue",
+                data: [gTreeSuccess, gGraphSuccess]
+            }, {
+                label: "Expert",
+                backgroundColor: "red",
+                data: [eTreeSuccess, eGraphSucess]
+            }]
+
+
+            new Chart(session_overview_visualization_time, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: generalDataSet
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            fontColor: 'white'
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: 'white',
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            }
+                        }]
+                    },
+                    title: {
+                        display: true,
+                        text: "Time",
+                        fontSize: 30,
+                        fontColor: "#FFFFFF",
+                        fontStyle: "bolder",
+                        padding: 2
+                    }
+                }
+            })
+            new Chart(session_overview_visualization_success, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: expertDataSet
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            fontColor: 'white'
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: 'white',
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'white'
+                            }
+                        }]
+                    },
+                    title: {
+                        display: true,
+                        text: "Completion",
+                        fontSize: 30,
+                        fontColor: "#FFFFFF",
+                        fontStyle: "bolder",
+                        padding: 2
+                    }
+                }
+            })
+        }
+    </script>
+    <!-- Embedded Javascript for Time_Comparison -->
+    <script>
+        var timeComparisonVisualizaton = document.getElementById("time_comparison_visualization");
+        // value 1 = General | value 2 = Expert
+        var timeVisualizationSelectorValue = 1;
+        createTimeComparisonChart();
+        Chart.pluginService.register({
+            afterDraw: function (chart) {
+                if (typeof chart.config.options.lineAt != 'undefined') {
+                    var treeValue = chart.config.options.lineAt.treeValue;
+                    var treeColor = chart.config.options.lineAt.treeColor;
+                    var graphValue = chart.config.options.lineAt.graphValue;
+                    var graphColor = chart.config.options.lineAt.graphColor;
+                    var ctxPlugin = chart.chart.ctx;
+                    var xAxe = chart.scales[chart.config.options.scales.xAxes[0].id];
+                    var yAxe = chart.scales[chart.config.options.scales.yAxes[0].id];
+
+                    if (yAxe.min != 0) return;
+
+                    ctxPlugin.strokeStyle = treeColor;
+                    ctxPlugin.beginPath();
+                    var lineAt = (treeValue - yAxe.min) * (100 / yAxe.max);
+                    lineAt = (100 - lineAt) / 100 * (yAxe.height) + yAxe.top;
+                    ctxPlugin.moveTo(xAxe.left, lineAt);
+                    ctxPlugin.lineTo(xAxe.right, lineAt);
+                    ctxPlugin.stroke();
+
+                    ctxPlugin.strokeStyle = graphColor;
+                    ctxPlugin.beginPath();
+                    var lineAt = (graphValue - yAxe.min) * (100 / yAxe.max);
+                    lineAt = (100 - lineAt) / 100 * (yAxe.height) + yAxe.top;
+                    ctxPlugin.moveTo(xAxe.left, lineAt);
+                    ctxPlugin.lineTo(xAxe.right, lineAt);
+                    ctxPlugin.stroke();
+
+                }
+            }
+        })
+
+        function createTimeComparisonChart() {
+            var labels = [];
+            var values = [{
+                label: "Tree",
+                backgroundColor: "Red",
+                data: []
+
+            }, {
+                label: "Graph",
+                backgroundColor: "Blue",
+                data: []
+            }];
+            var treeTimeAverage = 0;
+            var graphTimeAverage = 0;
+            var treeCounter = 0;
+            var graphCounter = 0
+            participants.forEach((participant) => {
+                var ontologySearchValue = timeVisualizationSelectorValue;
+                if (participant.Ontologies === ontologySearchValue) {
+                    labels.push(participant.ID);
+                    if (participant.Visualization === 1) {
+                        treeTimeAverage += participant.Time_On_Task;
+                        values[0].data.push(participant.Time_On_Task);
+                        values[1].data.push(0);
+                        treeCounter++;
+                    } else {
+                        graphTimeAverage += participant.Time_On_Task;
+                        values[0].data.push(0);
+                        values[1].data.push(participant.Time_On_Task);
+                        graphCounter++;
+                    }
+                }
+
+            });
+            treeTimeAverage = treeTimeAverage / treeCounter;
+            graphTimeAverage = graphTimeAverage / graphCounter;
+            new Chart(timeComparisonVisualizaton, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: values,
+                    options: {
+                        barValueSpacing: 5,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    min: 0,
+                                }
+                            }]
+                        }
+                    }
+                },
+                options: {
+                    lineAt: {
+                        treeValue: treeTimeAverage,
+                        treeColor: "Red",
+                        graphValue: graphTimeAverage,
+                        graphColor: "Blue"
+                    }
+                }
+            });
+        }
+
+        function refreshTimeComparisonChart(value) {
+            timeVisualizationSelectorValue = value;
+            var general = document.getElementById("Time_Comparison_General");
+            var expert = document.getElementById("Time_Comparison_Expert");
+            var container = document.getElementById("time_comparison_visualization_container");
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    general.className = "button comparison_button_selected";
+                    break;
+                case 2:
+                    expert.className = "button comparison_button_selected";
+                    break;
+            }
+            container.removeChild(timeComparisonVisualizaton);
+            var canvas = document.createElement('canvas');
+            canvas.id = "time_comparison_visualization";
+            canvas.className = "comparison_canvas";
+            container.appendChild(canvas);
+            timeComparisonVisualizaton = document.getElementById("time_comparison_visualization");
+            createTimeComparisonChart();
+        }
+    </script>
+    <!-- Embedded Javascript for Success_Comparison -->
+    <script>
+        var completionComparisionVisualization = document.getElementById("completion_comparison_visualization");
+        // value 1 = General | value 2 = Expert
+        var completionVisualizationSelectorValue = 1;
+        createCompletionComparisonChart();
+
+        function createCompletionComparisonChart() {
+            var labels = [];
+            var values = [{
+                label: "Tree",
+                backgroundColor: "Red",
+                data: []
+            }, {
+                label: "Graph",
+                backgroundColor: "Blue",
+                data: []
+            }];
+            var treeSuccessAverage = 0;
+            var graphSuccessAverage = 0;
+            var treeCounter = 0;
+            var graphCounter = 0
+            participants.forEach((participant) => {
+                // Show Tree and Graph Comparison
+                var ontologySearchValue = completionVisualizationSelectorValue;
+                if (participant.Ontologies === ontologySearchValue) {
+                    labels.push(participant.ID);
+                    if (participant.Visualization === 1) {
+                        treeSuccessAverage += (participant.Task_Success * 100);
+                        treeCounter++;
+                        values[0].data.push(participant.Task_Success * 100);
+                        values[1].data.push(0);
+                    } else {
+                        graphSuccessAverage += (participant.Task_Success * 100);
+                        graphCounter++;
+                        values[0].data.push(0);
+                        values[1].data.push(participant.Task_Success * 100);
+                    }
+                }
+            });
+            treeSuccessAverage = treeSuccessAverage / treeCounter;
+            graphSuccessAverage = graphSuccessAverage / graphCounter;
+            new Chart(completionComparisionVisualization, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: values,
+                    options: {
+                        barValueSpacing: 5,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    max: 100,
+                                    min: 0,
+                                    stepSize: 10
+                                }
+                            }]
+                        }
+                    }
+                },
+                options: {
+                    lineAt: {
+                        treeValue: treeSuccessAverage,
+                        treeColor: "Red",
+                        graphValue: graphSuccessAverage,
+                        graphColor: "Blue"
+                    }
+                }
+
+            });
+
+        }
+
+        function refreshCompletionComparisonChart(value) {
+            completionVisualizationSelectorValue = value;
+            var general = document.getElementById("Completion_Comparison_General");
+            var expert = document.getElementById("Completion_Comparison_Expert");
+            var container = document.getElementById("completion_comparison_visualization_container");
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    general.className = "button comparison_button_selected";
+                    break;
+                case 2:
+                    expert.className = "button comparison_button_selected";
+                    break;
+            }
+            container.removeChild(completionComparisionVisualization);
+            var canvas = document.createElement('canvas');
+            canvas.id = "completion_comparison_visualization";
+            canvas.className = "comparison_canvas";
+            container.appendChild(canvas);
+            completionComparisionVisualization = document.getElementById("completion_comparison_visualization");
+            createCompletionComparisonChart();
+        }
+    </script>
+
+
+
+
+
 </body>
 
 </html>
@@ -73,9 +666,32 @@
         padding-bottom: 0 !important;
     }
 
+    .tile_canvas {
+        width: 550px !important;
+        height: 300px !important;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    .space {
+
+        margin: 1% 1% 1% 1%;
+    }
+
+    .juicy {
+        background-color: #603F83FF;
+        color: #FFFFFF;
+    }
+
+    .dark {
+        background-color: #3d3d3d;
+    }
+
     /* Context Menu CSS */
     .context-menu {
-        background-color: #3d3d3d;
         padding: 5% 5% 5% 5%;
     }
 
@@ -93,5 +709,27 @@
 
     .top-spacing {
         margin-top: 2%;
+    }
+
+    /* Session Comparison Overview CSS */
+    .button_selected {
+        background-color: #603F83FF;
+        color: #FFFFFF;
+    }
+
+    /* Time Comparison CSS */
+    .comparison_canvas {
+        width: 1000px;
+    }
+
+    .selector_label {
+        font-size: 20px;
+        font-weight: bolder;
+        padding: 1% 1% 1% 1%;
+    }
+
+    .comparison_button_selected {
+        background-color: #603F83FF;
+        color: #FFFFFF;
     }
 </style>
