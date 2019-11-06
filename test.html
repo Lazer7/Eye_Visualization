@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Heatmap Test Code</title>
+    <script src='http://www.patrick-wied.at/static/heatmapjs/assets/js/heatmap.min.js'></script>
+    <script src="Data/combined_data/generalTree.js"></script>
+    <script src="Data/combined_data/generalGraph.js"></script>
+    <script src="Data/combined_data/expertTree.js"></script>
+    <script src="Data/combined_data/expertGraph.js"></script>
+    <style>
+        heatmapSection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            grid-auto-flow: row;
+            width: 1600px;
+            height: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+    <heatmapSection>
+        <div id='generalTreeHeatmap' style="height: 600px">
+            <canvas width="800" height="600" style="position:absolute; border: 1px solid #000000; left: 0; top: 0"></canvas>
+        </div>
+        <div id='generalGraphHeatmap' style="height: 600px">
+            <canvas width="800" height="600" style="position:absolute; border: 1px solid #000000; left: 0; top: 0"></canvas>
+        </div>
+        <div id='expertTreeHeatmap' style="height: 600px">
+            <canvas width="800" height="600" style="position:absolute; border: 1px solid #000000; left: 0; top: 0"></canvas>
+        </div>
+        <div id='expertGraphHeatmap' style="height: 600px">
+            <canvas width="800" height="600" style="position:absolute; border: 1px solid #000000; left: 0; top: 0"></canvas>
+        </div>
+    </heatmapSection>
+</body>
+
+<script>
+    var generalTreeInstance = h337.create({
+        container: document.getElementById('generalTreeHeatmap')
+    });
+    var generalGraphInstance = h337.create({
+        container: document.getElementById('generalGraphHeatmap')
+    });
+    var expertTreeInstance = h337.create({
+        container: document.getElementById('expertTreeHeatmap')
+    });
+    var expertGraphInstance = h337.create({
+        container: document.getElementById('expertGraphHeatmap')
+    });
+
+    generalTreeInstance.setData(getTotalFixationData(generalTreeFXD));
+    generalGraphInstance.setData(getTotalFixationData(generalGraphFXD));
+    expertTreeInstance.setData(getTotalFixationData(expertTreeFXD));
+    expertGraphInstance.setData(getTotalFixationData(expertGraphFXD));
+
+    function getTotalFixationData(list) {
+        var points = [];
+        var max = 0;
+
+        list.forEach(number => {
+            number.forEach(element => {
+                max = Math.max(max, element.Duration);
+                var point = {
+                    x: element.ScreenX/2,
+                    y: element.ScreenY/2,
+                    value: element.Duration,
+                    radius: element.Duration / 80
+                };
+                points.push(point)
+            })
+        });
+
+        var data = {
+            max: max,
+            data: points
+        };
+        return data;
+    }
+</script>
+</html>
