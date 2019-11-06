@@ -7,7 +7,7 @@
 * Jimmy Chao (Sad boi)
 * Sella Bae
 * John Khanh Ta
-* Ryan Pagsanhan Valdriz
+* Ryan Pagsanhan Valdriz (Good boi)
 * Kai Pietruska
 
 ## Set up
