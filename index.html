@@ -187,8 +187,7 @@
             container: document.getElementById('graphHeatmap')
         });
 
-        treeInstance.setData(getTotalFixationData(generalTreeFXD));
-        graphInstance.setData(getTotalFixationData(generalGraphFXD));
+        refreshFixationVisualization(1);
 
         function refreshFixationVisualization(value) {
             fixationVisualizationSelectorValue = value;
@@ -199,9 +198,13 @@
             switch (value) {
                 case 1:
                     general.className = "button comparison_button_selected";
+                    treeInstance.setData(getTotalFixationData(generalTreeFXD));
+                    graphInstance.setData(getTotalFixationData(generalGraphFXD));
                     break;
                 case 2:
                     expert.className = "button comparison_button_selected";
+                    treeInstance.setData(getTotalFixationData(expertTreeFXD));
+                    graphInstance.setData(getTotalFixationData(expertGraphFXD));
                     break;
             }
         }
