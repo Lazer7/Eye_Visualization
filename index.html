@@ -16,8 +16,14 @@
     <script src="https://d3js.org/d3.v4.js"></script>
     <!-- Load ChartsJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
+    <!-- Load heatmap.js -->
+    <script src='http://www.patrick-wied.at/static/heatmapjs/assets/js/heatmap.min.js'></script>
     <!-- data -->
     <script src="Data/Others/participant_data.js"></script>
+    <script src="Data/combined_data/generalTree.js"></script>
+    <script src="Data/combined_data/generalGraph.js"></script>
+    <script src="Data/combined_data/expertTree.js"></script>
+    <script src="Data/combined_data/expertGraph.js"></script>
 </head>
 
 <body>
@@ -30,7 +36,7 @@
                         Eye Tracking Visualization
                     </p>
                     <ul class="menu-list">
-                        <li><a onclick="load('Time_Visualization')">Time Path Comparison</a></li>
+                        <li><a onclick="load('Fixation_Visualization')">Fixation Comparison</a></li>
                         <li><a onclick="load('Convex_Visualization')">Convex Hull Comparison</a></li>
                         <li><a onclick="load('Participant_Visualization')">Participant Comparison</a></li>
                     </ul>
@@ -49,7 +55,31 @@
         <!-- End of context menu HTML -->
         <!-- This section is the Visualization Code for every visualization image we are creating -->
         <div class="column">
-            <div id="Time_Visualization" class="start"> Time Visualization </div>
+            <div id="Fixation_Visualization" class="start">
+                <div class="title">Fixation Visualization</div>
+                <div>
+                    <label class="selector_label">Ontology:</label>
+                    <button id="Fixation_Visualization_General" class="button comparison_button_selected"
+                            onclick="refreshFixationVisualization(1)"><i class="fas fa-info-circle"></i> &nbsp;
+                        General
+                    </button>
+                    <button id="Fixation_Visualization_Expert" class="button"
+                            onclick="refreshFixationVisualization(2)"><i class="fas fa-atlas"></i> &nbsp;
+                        Expert
+                    </button>
+                </div>
+                <br>
+                <heatmapSection>
+                    <div
+                        id='treeHeatmap' class="heatmap" style="width: 800px">
+                        <img src="./Assets/monitor.png"></img>
+                    </div>
+                    <div
+                        id='graphHeatmap' class="heatmap" style="width: 800px">
+                        <img src="./Assets/monitor.png"></img>
+                    </div>
+                </heatmapSection>
+            </div>
             <div id="Convex_Visualization" class="default"> Convex Visualization </div>
             <div id="Participant_Visualization" class="default">
                 <div class="title">Participant Overview</div>
@@ -138,7 +168,7 @@
     <!-- Embedded Javascript for the context menu-->
     <script>
         function load(id) {
-            document.getElementById("Time_Visualization").style.display = "none";
+            document.getElementById("Fixation_Visualization").style.display = "none";
             document.getElementById("Convex_Visualization").style.display = "none";
             document.getElementById("Participant_Visualization").style.display = "none";
             document.getElementById("Session_Overview").style.display = "none";
@@ -146,6 +176,58 @@
             document.getElementById("Completion_Comparison").style.display = "none";
             document.getElementById("Session_Comparison").style.display = "none";
             document.getElementById(id).style.display = "block";
+        }
+    </script>
+    <!-- Embedded Javascript for the Fixation_Visualization-->
+    <script>
+        var treeInstance = h337.create({
+            container: document.getElementById('treeHeatmap')
+        });
+        var graphInstance = h337.create({
+            container: document.getElementById('graphHeatmap')
+        });
+
+        treeInstance.setData(getTotalFixationData(generalTreeFXD));
+        graphInstance.setData(getTotalFixationData(generalGraphFXD));
+
+        function refreshFixationVisualization(value) {
+            fixationVisualizationSelectorValue = value;
+            var general = document.getElementById("Fixation_Visualization_General");
+            var expert = document.getElementById("Fixation_Visualization_Expert");
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    general.className = "button comparison_button_selected";
+                    break;
+                case 2:
+                    expert.className = "button comparison_button_selected";
+                    break;
+            }
+        }
+
+        function getTotalFixationData(heatmapList) {
+            var heatmapPoints = [];
+            var heatmapMax = 0;
+
+            heatmapList.forEach(number => {
+                number.forEach(element => {
+                    heatmapMax = Math.max(heatmapMax, element.Duration);
+                    var heatmapPoint = {
+                        x: element.ScreenX/2 + 36,
+                        y: element.ScreenY/2 + 36,
+                        value: element.Duration,
+                        radius: element.Duration / 80
+                    };
+                    heatmapPoints.push(heatmapPoint)
+                })
+            });
+
+            var heatmapData = {
+                max: heatmapMax,
+                data: heatmapPoints
+            };
+            return heatmapData;
         }
     </script>
     <!-- Embedded Javascript for Participant_Overview-->
@@ -658,6 +740,20 @@
 <style>
     html {
         background-image: linear-gradient(#a5c0ee, #fbc5ec);
+    }
+
+    heatmapSection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        grid-auto-flow: row;
+        width: 1600px;
+        height: 1200px;
+    }
+
+
+    .img {
+      position:absolute;
     }
 
     .columns,
