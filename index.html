@@ -72,10 +72,12 @@
                 <heatmapSection>
                     <div
                         id='treeHeatmap' class="heatmap" style="width: 800px">
+                        <center class="label">Tree</center>
                         <img src="./Assets/monitor.png"></img>
                     </div>
                     <div
                         id='graphHeatmap' class="heatmap" style="width: 800px">
+                        <center class="label">Graph</center>
                         <img src="./Assets/monitor.png"></img>
                     </div>
                 </heatmapSection>
@@ -218,7 +220,7 @@
                     heatmapMax = Math.max(heatmapMax, element.Duration);
                     var heatmapPoint = {
                         x: element.ScreenX/2.19375 + 36,
-                        y: element.ScreenY/2.19375 + 36,
+                        y: element.ScreenY/2.19375 + 68,
                         value: element.Duration,
                         radius: element.Duration / 80
                     };
