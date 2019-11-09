@@ -18,6 +18,37 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
     <!-- data -->
     <script src="Data/Others/participant_data.js"></script>
+    <script type="text/javascript" src="Data/json_data/p1/p1treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p2/p2treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p3/p3treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p4/p4treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p5/p5treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p6/p6treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p7/p7treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p10/p10treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p11/p11treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p12/p12treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p13/p13treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p14/p14treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p15/p15treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p16/p16treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p17/p17treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p18/p18treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p19/p19treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p20/p20treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p21/p21treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p23/p23treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p24/p24treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p25/p25treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p27/p27treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p28/p28treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p30/p30treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p31/p31treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p32/p32treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p33/p33treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p34/p34treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p35/p35treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p36/p36treeFXD.json"></script>
 </head>
 
 <body>
@@ -50,7 +81,61 @@
         <!-- This section is the Visualization Code for every visualization image we are creating -->
         <div class="column">
             <div id="Time_Visualization" class="start"> Time Visualization </div>
-            <div id="Convex_Visualization" class="default"> Convex Visualization </div>
+            <div id="Convex_Visualization" class="default">
+                <div class="title">Convex Hull Comparison</div>
+                <div class="cvElement">
+
+                </div>
+                <div class="cvElement" id="cvCheckbox">
+                    <div class="CVboxes">
+                        <input type="checkbox" name="cvCheckbox" id="cvP1"> Participant 1<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP2"> Participant 2<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP3"> Participant 3<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP4"> Participant 4<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP5"> Participant 5<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP6"> Participant 6<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP7"> Participant 7<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP8"> Participant 10<br />
+                    </div>
+                    <div class="CVboxes">
+                        <input type="checkbox" name="cvCheckbox" value="cvP9"> Participant 11<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP10"> Participant 12<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP11"> Participant 13<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP12"> Participant 14<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP13"> Participant 15<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP14"> Participant 16<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP15"> Participant 17<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP16"> Participant 18<br />
+                    </div>
+                    <div class="CVboxes">
+                        <input type="checkbox" name="cvCheckbox" value="cvP17"> Participant 19<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP18"> Participant 20<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP19"> Participant 21<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP20"> Participant 23<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP21"> Participant 24<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP22"> Participant 25<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP23"> Participant 27<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP24"> Participant 28<br />
+                    </div>
+                    <div class="CVboxes">
+                        <input type="checkbox" name="cvCheckbox" value="cvP26"> Participant 30<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP27"> Participant 31<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP28"> Participant 32<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP29"> Participant 33<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP30"> Participant 34<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP31"> Participant 35<br />
+                        <input type="checkbox" name="cvCheckbox" value="cvP32"> Participant 36<br />
+                        <input type="checkbox" onClick="toggleCVcheckbox(this)" /> Toggle all Participants<br />
+                    </div>
+                </div>
+                <div class="cvElement">
+                    <input type="submit" value="Show Visualization" onClick="createTreeSummary();">
+                </div>
+                <div class="cvElement" id="summary_holder">
+                    <div id="summary_visualization"></div>
+                </div>
+
+            </div>
             <div id="Participant_Visualization" class="default">
                 <div class="title">Participant Overview</div>
                 <button id="Session_Comparison_Tree" class="button space button_selected"
@@ -645,7 +730,204 @@
         }
     </script>
 
+    <!-- Embedded Javascript for Convex_Visualization -->
+    <script>
+        var CVactive = false;
+        var CVtreeFXDvis = [treeFXD1, treeFXD2, treeFXD3, treeFXD4, treeFXD5, treeFXD6, treeFXD7,
+            treeFXD10, treeFXD11, treeFXD12, treeFXD13, treeFXD14, treeFXD15, treeFXD16,
+            treeFXD17, treeFXD18, treeFXD19, treeFXD20, treeFXD21, treeFXD23,
+            treeFXD24, treeFXD25, treeFXD27, treeFXD28, treeFXD30,
+            treeFXD31, treeFXD32, treeFXD33, treeFXD34, treeFXD35, treeFXD36];
+        // Defining Functions
 
+        function toggleCVcheckbox(source) {
+            checkboxes = document.getElementsByName('cvCheckbox');
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+
+
+        window.onload = function onLoadFunction() {
+            createTreeSummary();
+        }
+
+        function createTreeSummary() {
+            // set the dimensions and margins of the graph
+            if (CVactive) {
+                d3.select("#summary_visualization").remove();
+                var container = document.getElementById("summary_holder");
+                container.className = "cvElement";
+                var svgContainer = document.createElement("DIV");
+                svgContainer.id = "summary_visualization";
+                container.appendChild(svgContainer);
+            }
+            CVactive = true;
+            var margin = {
+                top: 10,
+                right: 0,
+                bottom: 35,
+                left: 62
+            },
+                width = 700,
+                height = 500;
+            // append the svg object to the body of the page
+            var svg = d3.select("#summary_visualization")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            var maxTreeY = -1;
+            var maxTreeX = -1;
+            var minTreeX = -1;
+            var minTreeY = -1;
+            var CVtitle = "Participant(s): ";
+            var CVCheckboxElements = document.getElementsByName("cvCheckbox");
+            for (var i = 0; i < CVCheckboxElements.length; i++) {
+                if (CVCheckboxElements[i].checked) {
+                    if (i >= 0 && i < 7) { // p1-p7
+                        CVtitle = CVtitle + (i + 1).toString() + ", ";
+                    } else if (i >= 7 && i < 22) { //p10-p25 
+                        CVtitle = CVtitle + (i + 3).toString() + ", ";
+                    } else if (i >= 22 && i < 24) { //p27-p28 
+                        CVtitle = CVtitle + (i + 5).toString() + ", ";
+                    } else {
+                        CVtitle = CVtitle + (i + 6).toString() + ", ";
+                    }
+                    if (maxTreeY == -1) {
+                        maxTreeY = getTreeFXDYMax(CVtreeFXDvis[i]);
+                        maxTreeX = getTreeFXDXMax(CVtreeFXDvis[i]);
+                        minTreeX = getTreeFXDXMin(CVtreeFXDvis[i]);
+                        minTreeY = getTreeFXDYMin(CVtreeFXDvis[i]);
+                    } else {
+                        var CVTempMinMax = getTreeFXDYMax(CVtreeFXDvis[i]);
+                        if (CVTempMinMax > maxTreeY) maxTreeY = CVTempMinMax;
+                        CVTempMinMax = getTreeFXDXMax(CVtreeFXDvis[i]);
+                        if (CVTempMinMax > maxTreeX) maxTreeX = CVTempMinMax;
+                        CVTempMinMax = getTreeFXDXMin(CVtreeFXDvis[i]);
+                        if (CVTempMinMax < minTreeX) minTreeX = CVTempMinMax;
+                        CVTempMinMax = getTreeFXDYMin(CVtreeFXDvis[i]);
+                        if (CVTempMinMax < minTreeY) minTreeY = CVTempMinMax;
+                    }
+                }
+            }
+            CVtitle = CVtitle.substring(0, CVtitle.length - 2);
+            if (CVtitle.length > 30) {
+                CVtitle = CVtitle.substring(0, 28) + '\n' + CVtitle.substring(48);
+            }
+
+
+            svg.append("text")
+                .attr("x", (width / 2))
+                .attr("y", 0 - (margin.top / 2) + 10)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .text(CVtitle);
+
+
+
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([minTreeX, maxTreeX])
+                .range([0, width]);
+            svg.append("g")
+                .attr("transform", "translate(" + 0 + "," + (height) + ")")
+                .call(d3.axisBottom(x));
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([maxTreeY, minTreeY])
+                .range([height, 0]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+
+            // Define the div for the tooltip
+            var div = d3.select("body").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+
+            // Formatting data
+
+            for (var i = 0; i < CVCheckboxElements.length; i++) {
+                if (CVCheckboxElements[i].checked) {
+                    var plots = [];
+                    CVtreeFXDvis[i].forEach(element => {
+                        plots.push({
+                            x: parseInt(element.ScreenX, 10),
+                            y: parseInt(element.ScreenY, 10),
+                            color: '#FF0000'
+                        })
+                    });
+                    svg.selectAll("polygon")
+                        .data([plots])
+                        .enter().append("polygon")
+                        .style("fill", function (d) {
+                            var color;
+                            switch (i) {
+                                case 0:
+                                    color = "#00FF00";
+                                    break;
+                                case 1:
+                                    color = "#cc0099";
+                                default: break;
+                            }
+                            return color;
+                        })
+                        .attr("points", function (d) {
+                            return d.map(function (d) {
+                                return [x(d.x), y(d.y)].join(",");
+                            }).join(" ");
+                        });
+                }
+
+            }
+
+
+        }
+
+        function getTreeFXDYMax(tempTree) {
+            return tempTree.reduce((max, p) => {
+                if (max.constructor === ({}).constructor) {
+                    max = max.ScreenY
+                }
+                return Math.max(p.ScreenY, max);
+            });
+        }
+
+        function getTreeFXDXMax(tempTree) {
+            return tempTree.reduce((max, p) => {
+                if (max.constructor === ({}).constructor) {
+                    max = max.ScreenX
+                }
+                return Math.max(p.ScreenX, max);
+            });
+        }
+
+        function getTreeFXDXMin(tempTree) {
+            return tempTree.reduce((min, p) => {
+                if (min.constructor === ({}).constructor) {
+                    min = min.ScreenX
+                }
+                return Math.min(p.ScreenX, min);
+            });
+        }
+
+        function getTreeFXDYMin(tempTree) {
+            return tempTree.reduce((min, p) => {
+                if (min.constructor === ({}).constructor) {
+                    min = min.ScreenY
+                }
+                return Math.min(p.ScreenY, min);
+            });
+        }
+
+
+    </script>
 
 
 
@@ -731,5 +1013,28 @@
     .comparison_button_selected {
         background-color: #603F83FF;
         color: #FFFFFF;
+    }
+
+
+    /*Convex Hull CSS */
+    polygon {
+        fill: CadetBlue;
+        opacity: .3;
+    }
+
+    .cvElement {
+
+        border: 1px solid #000;
+        margin-bottom: 5px;
+        text-align: center;
+        background: #eee;
+    }
+
+    .CVboxes {
+        width: 23%;
+        padding: 5px;
+        float: left;
+        margin: 5px;
+        border: 1px solid #aaa;
     }
 </style>
