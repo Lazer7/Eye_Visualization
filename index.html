@@ -18,6 +18,37 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
     <!-- data -->
     <script src="Data/Others/participant_data.js"></script>
+    <script type="text/javascript" src="Data/json_data/p1/p1treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p2/p2treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p3/p3treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p4/p4treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p5/p5treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p6/p6treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p7/p7treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p10/p10treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p11/p11treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p12/p12treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p13/p13treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p14/p14treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p15/p15treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p16/p16treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p17/p17treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p18/p18treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p19/p19treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p20/p20treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p21/p21treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p23/p23treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p24/p24treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p25/p25treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p27/p27treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p28/p28treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p30/p30treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p31/p31treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p32/p32treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p33/p33treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p34/p34treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p35/p35treeFXD.json"></script>
+    <script type="text/javascript" src="Data/json_data/p36/p36treeFXD.json"></script>
 </head>
 
 <body>
@@ -32,7 +63,6 @@
                     <ul class="menu-list">
                         <li><a onclick="load('Time_Visualization')">Time Path Comparison</a></li>
                         <li><a onclick="load('Convex_Visualization')">Convex Hull Comparison</a></li>
-                        <li><a onclick="load('Participant_Visualization')">Participant Comparison</a></li>
                     </ul>
                     <p class="menu-label">
                         Session Visualization
@@ -49,34 +79,32 @@
         <!-- End of context menu HTML -->
         <!-- This section is the Visualization Code for every visualization image we are creating -->
         <div class="column">
-            <div id="Time_Visualization" class="start"> Time Visualization </div>
-            <div id="Convex_Visualization" class="default"> Convex Visualization </div>
-            <div id="Participant_Visualization" class="default">
-                <div class="title">Participant Overview</div>
-                <button id="Session_Comparison_Tree" class="button space button_selected"
-                    onclick="switchSessionOverview('Session_Comparison_Tree')"><i class="fas fa-tree"></i> &nbsp;
-                    Tree</button>
-                <button id="Session_Comparison_Graph" class="button space"
-                    onclick="switchSessionOverview('Session_Comparison_Graph')"><i class="fas fa-project-diagram"></i>
-                    &nbsp; Graph</button>
+            <div id="Time_Visualization" class="default"> Time Visualization </div>
+            <div id="Convex_Visualization" class="start">
+                <div class="title">Convex Hull Comparison</div>
+                <label class="selector_label">Ontology:</label>
+                <button id="ConvexHull_Comparison_General" class="button comparison_button_selected"
+                    onclick="changeConvexHullOntology(1)">
+                    <i class="fas fa-info-circle"></i> &nbsp;
+                    General
+                </button>
+                <button id="ConvexHull_Comparison_Expert" class="button" onclick="changeConvexHullOntology(2)">
+                    <i class="fas fa-atlas"></i>&nbsp;
+                    Expert
+                </button>
                 <div class="tile is-vertical is-ancestor">
                     <div class="tile is-parent">
-                        <div id="General_Session_Time_Average_Container" class="tile notification juicy space">
-                            <canvas id="General_Session_Time_Average" class="tile_canvas"></canvas>
+                        <div id="convexhull_tree_visualization_container" class="tile notification juicy space">
+
+                            <div id="convexhull_tree_visualization"></div>
                         </div>
-                        <div id="Expert_Session_Time_Average_Container" class="tile notification juicy space">
-                            <canvas id="Expert_Session_Time_Average" class="tile_canvas"></canvas>
-                        </div>
-                    </div>
-                    <div class="tile is-parent">
-                        <div id="General_Session_Success_Average_Container" class="tile notification juicy space">
-                            <canvas id="General_Session_Success_Average" class="tile_canvas"></canvas>
-                        </div>
-                        <div id="Expert_Session_Success_Average_Container" class="tile notification juicy space">
-                            <canvas id="Expert_Session_Success_Average" class="tile_canvas"></canvas>
+                        <div id="convexhull_graph_visualization_container" class="tile notification juicy space">
+
+                            <div id="convexhull_graph_visualization"></div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div id="Session_Overview" class="default">
                 <div class="title">Session Overview</div>
@@ -109,7 +137,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="Completion_Comparison" class="default">
                 <div class="title">Completion Comparison Visualization</div>
                 <div>
@@ -127,7 +154,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="Session_Comparison" class="default"></div>
         </div>
         <!-- End of Visualization Section -->
@@ -140,140 +166,11 @@
         function load(id) {
             document.getElementById("Time_Visualization").style.display = "none";
             document.getElementById("Convex_Visualization").style.display = "none";
-            document.getElementById("Participant_Visualization").style.display = "none";
             document.getElementById("Session_Overview").style.display = "none";
             document.getElementById("Time_Comparison").style.display = "none";
             document.getElementById("Completion_Comparison").style.display = "none";
             document.getElementById("Session_Comparison").style.display = "none";
             document.getElementById(id).style.display = "block";
-        }
-    </script>
-    <!-- Embedded Javascript for Participant_Overview-->
-    <script>
-        // Locating Session Visualization Overview canvas tiles
-        var generalSessionTime = document.getElementById("General_Session_Time_Average");
-        var generalSessionSuccess = document.getElementById("General_Session_Success_Average");
-        var expertSessionTime = document.getElementById("Expert_Session_Time_Average");
-        var expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
-        // Set current comparison to tree (Tree = 1 Graph = 2)
-        var sessionOverviewComparisonType = 1;
-        // Create the Radar Visualization on the Session Comparison Overview
-        refreshSessionOverviewChart();
-        // Title is the Title of the visualization
-        // canvasElement is the element on the DOM we are drawing onto
-        // The participant data
-        // Type is a bool value -> true = Time | false = Success
-        function generateNewRadarChart(title, canvasElement, data, type) {
-            var labels = []; // Participants
-            var values = []; // Data Value
-            var timeAverage = 0;
-            var successAverage = 0;
-            // Data Processing (filtering for time or success percentage)
-            data.forEach(element => {
-                labels.push(element.ID);
-                if (type) {
-                    values.push(element.Time_On_Task)
-                } else {
-                    values.push(element.Task_Success * 100)
-                }
-                timeAverage += element.Time_On_Task;
-                successAverage += (element.Task_Success * 100);
-            });
-            timeAverage = timeAverage / data.length;
-            successAverage = successAverage / data.length;
-            // Afix the average value onto the title
-            title = title + ": " + (type ? timeAverage.toFixed(2) + " min" : successAverage.toFixed(2) + "%");
-            new Chart(canvasElement, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: values,
-                        backgroundColor: type ? "rgba(165, 192, 238, 0.5)" : "rgba(251, 197, 236, 0.5)",
-                        fillOpacity: .5,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scale: {
-                        pointLabels: {
-                            fontSize: 15,
-                            fontColor: "#FFFFFF"
-                        },
-                        ticks: {
-                            suggestedMin: 0,
-                            suggestedMax: type ? 50 : 100
-                        }
-                    },
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: title,
-                        fontSize: 30,
-                        fontColor: "#FFFFFF",
-                        fontStyle: "bolder",
-                        padding: 2
-                    }
-                }
-            });
-
-        }
-
-        function destroySessionOverviewCanvas(holder, containerName, canvasName) {
-            var container = document.getElementById(containerName);
-            container.removeChild(holder);
-            var canvas = document.createElement('canvas');
-            canvas.id = canvasName;
-            canvas.className = "tile_canvas";
-            container.appendChild(canvas);
-        }
-
-        function refreshSessionOverviewChart() {
-            destroySessionOverviewCanvas(generalSessionTime, "General_Session_Time_Average_Container",
-                "General_Session_Time_Average");
-            destroySessionOverviewCanvas(expertSessionTime, "Expert_Session_Time_Average_Container",
-                "Expert_Session_Time_Average");
-            destroySessionOverviewCanvas(generalSessionSuccess, "General_Session_Success_Average_Container",
-                "General_Session_Success_Average");
-            destroySessionOverviewCanvas(expertSessionSuccess, "Expert_Session_Success_Average_Container",
-                "Expert_Session_Success_Average");
-            generalSessionTime = document.getElementById("General_Session_Time_Average");
-            generalSessionSuccess = document.getElementById("General_Session_Success_Average");
-            expertSessionTime = document.getElementById("Expert_Session_Time_Average");
-            expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
-            generateNewRadarChart("General Time Average", generalSessionTime, participants
-                .filter((e) => {
-                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
-                }), true);
-            generateNewRadarChart("Expert Time Average", expertSessionTime, participants
-                .filter((e) => {
-                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
-                }), true);
-            generateNewRadarChart("General Success Average", generalSessionSuccess,
-                participants.filter((e) => {
-                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
-                }), false);
-            generateNewRadarChart("Expert Success Average", expertSessionSuccess,
-                participants.filter((e) => {
-                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
-                }), false);
-        }
-
-        function switchSessionOverview(type) {
-            var tree = document.getElementById("Session_Comparison_Tree");
-            var graph = document.getElementById("Session_Comparison_Graph");
-            tree.className = "button space";
-            graph.className = "button space"
-            if (type === "Session_Comparison_Tree") {
-                sessionOverviewComparisonType = 1;
-                tree.className += " button_selected";
-            } else {
-                sessionOverviewComparisonType = 2;
-                graph.className += " button_selected";
-            }
-            refreshSessionOverviewChart();
         }
     </script>
     <!-- Embedded Javascript for Session_Overview -->
@@ -644,8 +541,150 @@
             createCompletionComparisonChart();
         }
     </script>
+    <!-- Embedded Javascript for Convex_Visualization -->
+    <script>
+        // Holds selected Ontology value 1 = General | value 2 = Expert
+        var ConvexHullOntologySelected = 1;
+        // Ignore 8,9,22,26,29
+        const CVtreeFXDvis = [treeFXD1, treeFXD2, treeFXD3, treeFXD4, treeFXD5, treeFXD6, treeFXD7,
+            undefined, undefined, treeFXD10, treeFXD11, treeFXD12, treeFXD13, treeFXD14, treeFXD15, treeFXD16,
+            treeFXD17, treeFXD18, treeFXD19, treeFXD20, treeFXD21, undefined, treeFXD23,
+            treeFXD24, treeFXD25, undefined, treeFXD27, treeFXD28, undefined, treeFXD30,
+            treeFXD31, treeFXD32, treeFXD33, treeFXD34, treeFXD35, treeFXD36
+        ];
+        var treeGeneralConvexData = [];
+        var treeExpertConvexData = [];
+        var graphGeneralConvexData = [];
+        var graphExpertConvexData = [];
+        participants.forEach((participant) => {
+            var numberPattern = /\d+/g;
+            var index = participant.ID.match(numberPattern)[0]; // Get ID number
+            if (CVtreeFXDvis[index] !== undefined) {
+                // General Tree
+                if (participant.Ontologies === 1 && participant.Visualization === 1) {
+                    treeGeneralConvexData.push(CVtreeFXDvis[index]);
+                }
+                // Expert Tree
+                else if (participant.Ontologies === 2 && participant.Visualization === 1) {
+                    treeExpertConvexData.push(CVtreeFXDvis[index]);
+                }
+                // General Graph
+                else if (participant.Ontologies === 1 && participant.Visualization === 2) {
+                    graphGeneralConvexData.push(CVtreeFXDvis[index]);
+                }
+                // Expert Graph
+                else {
+                    graphExpertConvexData.push(CVtreeFXDvis[index]);
+                }
+            }
+        })
+        resetConvexHullVisualization();
 
+        function changeConvexHullOntology(value) {
+            ConvexHullOntologySelected = value;
+            var general = document.getElementById("ConvexHull_Comparison_General");
+            var expert = document.getElementById("ConvexHull_Comparison_Expert");
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    general.className = "button comparison_button_selected";
+                    break;
+                case 2:
+                    expert.className = "button comparison_button_selected";
+                    break;
+            }
+            resetConvexHullVisualization();
+        }
 
+        function resetConvexHullVisualization() {
+            d3.select("#convexhull_tree_visualization").remove();
+            // Refresh Tree
+            d3.select("#convexhull_graph_visualization").remove();
+            var container = document.getElementById("convexhull_tree_visualization_container");
+            var svgContainer = document.createElement("DIV");
+            svgContainer.id = "convexhull_tree_visualization";
+            container.appendChild(svgContainer);
+            // Refresh Graph
+            container = document.getElementById("convexhull_graph_visualization_container");
+            svgContainer = document.createElement("DIV");
+            svgContainer.id = "convexhull_graph_visualization";
+            container.appendChild(svgContainer);
+
+            createConvexHullVisualization("#convexhull_tree_visualization",
+                ConvexHullOntologySelected === 1 ? treeGeneralConvexData : treeExpertConvexData,
+                "Tree")
+            createConvexHullVisualization("#convexhull_graph_visualization",
+                ConvexHullOntologySelected === 1 ? graphGeneralConvexData : graphExpertConvexData,
+                "Graph")
+        }
+
+        function createConvexHullVisualization(targetElement, targetData,title) {
+            var margin = {
+                    top: 50,
+                    right: 0,
+                    bottom: 35,
+                    left: 62
+                },
+                width = 450,
+                height = 450;
+            var svg = d3.select(targetElement)
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([0, 1400])
+                .range([0, width]);
+            svg.append("g")
+                .attr("transform", "translate(" + 0 + "," + (height) + ")")
+                .attr("color", "white")
+                .call(d3.axisBottom(x));
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([1200, 0])
+                .range([height, 0]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            svg.append("text")
+                .attr("x",(width/2))
+                .attr("y",0-(margin.top/2)+10)
+                .attr("text-anchor","middle")
+                .style("font-size","50px")
+                .text(title);
+            var counter = 0;
+            targetData.forEach((participantFixationData) => {
+                var currentColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                var plot = [];
+                participantFixationData.forEach((element) => {
+                    plot.push({
+                        x: parseInt(element.ScreenX, 10),
+                        y: parseInt(element.ScreenY, 10),
+                    })
+                })
+                svg.selectAll("polygon" + counter)
+                    .data([plot])
+                    .enter().append("polygon")
+                    .style("fill", function (d) {
+                        return currentColor;
+                    })
+                    .attr("fill-opacity", "0.8")
+                    .attr("points", function (d) {
+                        return d.map(function (d) {
+                            return [x(d.x), y(d.y)].join(",");
+                        }).join(" ");
+                    });
+                counter++;
+            })
+
+        }
+    </script>
 
 
 
@@ -731,5 +770,16 @@
     .comparison_button_selected {
         background-color: #603F83FF;
         color: #FFFFFF;
+    }
+
+
+    /*Convex Hull CSS */
+    polygon {
+        opacity: .3;
+    }
+
+    text {
+        color: #FFFFFF !important;
+        fill: #FFFFFF;
     }
 </style>
