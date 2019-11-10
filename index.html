@@ -63,7 +63,6 @@
                     <ul class="menu-list">
                         <li><a onclick="load('Time_Visualization')">Time Path Comparison</a></li>
                         <li><a onclick="load('Convex_Visualization')">Convex Hull Comparison</a></li>
-                        <li><a onclick="load('Participant_Visualization')">Participant Comparison</a></li>
                     </ul>
                     <p class="menu-label">
                         Session Visualization
@@ -80,88 +79,31 @@
         <!-- End of context menu HTML -->
         <!-- This section is the Visualization Code for every visualization image we are creating -->
         <div class="column">
-            <div id="Time_Visualization" class="start"> Time Visualization </div>
-            <div id="Convex_Visualization" class="default">
+            <div id="Time_Visualization" class="default"> Time Visualization </div>
+            <div id="Convex_Visualization" class="start">
                 <div class="title">Convex Hull Comparison</div>
-                <div class="cvElement">
-
-                </div>
-                <div class="cvElement" id="cvCheckbox">
-                    <div class="CVboxes">
-                        <input type="checkbox" name="cvCheckbox" id="cvP1"> Participant 1<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP2"> Participant 2<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP3"> Participant 3<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP4"> Participant 4<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP5"> Participant 5<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP6"> Participant 6<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP7"> Participant 7<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP8"> Participant 10<br />
-                    </div>
-                    <div class="CVboxes">
-                        <input type="checkbox" name="cvCheckbox" value="cvP9"> Participant 11<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP10"> Participant 12<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP11"> Participant 13<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP12"> Participant 14<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP13"> Participant 15<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP14"> Participant 16<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP15"> Participant 17<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP16"> Participant 18<br />
-                    </div>
-                    <div class="CVboxes">
-                        <input type="checkbox" name="cvCheckbox" value="cvP17"> Participant 19<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP18"> Participant 20<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP19"> Participant 21<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP20"> Participant 23<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP21"> Participant 24<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP22"> Participant 25<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP23"> Participant 27<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP24"> Participant 28<br />
-                    </div>
-                    <div class="CVboxes">
-                        <input type="checkbox" name="cvCheckbox" value="cvP26"> Participant 30<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP27"> Participant 31<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP28"> Participant 32<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP29"> Participant 33<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP30"> Participant 34<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP31"> Participant 35<br />
-                        <input type="checkbox" name="cvCheckbox" value="cvP32"> Participant 36<br />
-                        <input type="checkbox" onClick="toggleCVcheckbox(this)" /> Toggle all Participants<br />
-                    </div>
-                </div>
-                <div class="cvElement">
-                    <input type="submit" value="Show Visualization" onClick="createTreeSummary();">
-                </div>
-                <div class="cvElement" id="summary_holder">
-                    <div id="summary_visualization"></div>
-                </div>
-
-            </div>
-            <div id="Participant_Visualization" class="default">
-                <div class="title">Participant Overview</div>
-                <button id="Session_Comparison_Tree" class="button space button_selected"
-                    onclick="switchSessionOverview('Session_Comparison_Tree')"><i class="fas fa-tree"></i> &nbsp;
-                    Tree</button>
-                <button id="Session_Comparison_Graph" class="button space"
-                    onclick="switchSessionOverview('Session_Comparison_Graph')"><i class="fas fa-project-diagram"></i>
-                    &nbsp; Graph</button>
+                <label class="selector_label">Ontology:</label>
+                <button id="ConvexHull_Comparison_General" class="button comparison_button_selected"
+                onclick="changeConvexHullOntology(1)">
+                    <i class="fas fa-info-circle"></i> &nbsp;
+                    General
+                </button>
+                <button id="ConvexHull_Comparison_Expert" class="button"
+                onclick="changeConvexHullOntology(2)">
+                    <i class="fas fa-atlas"></i>&nbsp;
+                    Expert
+                </button>
                 <div class="tile is-vertical is-ancestor">
                     <div class="tile is-parent">
-                        <div id="General_Session_Time_Average_Container" class="tile notification juicy space">
-                            <canvas id="General_Session_Time_Average" class="tile_canvas"></canvas>
+                        <div id="convexhull_tree_visualization_container" class="tile notification juicy space">
+                            <div id="convexhull_tree_visualization"></div>
                         </div>
-                        <div id="Expert_Session_Time_Average_Container" class="tile notification juicy space">
-                            <canvas id="Expert_Session_Time_Average" class="tile_canvas"></canvas>
-                        </div>
-                    </div>
-                    <div class="tile is-parent">
-                        <div id="General_Session_Success_Average_Container" class="tile notification juicy space">
-                            <canvas id="General_Session_Success_Average" class="tile_canvas"></canvas>
-                        </div>
-                        <div id="Expert_Session_Success_Average_Container" class="tile notification juicy space">
-                            <canvas id="Expert_Session_Success_Average" class="tile_canvas"></canvas>
+                        <div id="convexhull_graph_visualization_container" class="tile notification juicy space">
+                            <div id="convexhull_graph_visualization"></div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div id="Session_Overview" class="default">
                 <div class="title">Session Overview</div>
@@ -194,7 +136,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="Completion_Comparison" class="default">
                 <div class="title">Completion Comparison Visualization</div>
                 <div>
@@ -212,7 +153,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="Session_Comparison" class="default"></div>
         </div>
         <!-- End of Visualization Section -->
@@ -225,140 +165,11 @@
         function load(id) {
             document.getElementById("Time_Visualization").style.display = "none";
             document.getElementById("Convex_Visualization").style.display = "none";
-            document.getElementById("Participant_Visualization").style.display = "none";
             document.getElementById("Session_Overview").style.display = "none";
             document.getElementById("Time_Comparison").style.display = "none";
             document.getElementById("Completion_Comparison").style.display = "none";
             document.getElementById("Session_Comparison").style.display = "none";
             document.getElementById(id).style.display = "block";
-        }
-    </script>
-    <!-- Embedded Javascript for Participant_Overview-->
-    <script>
-        // Locating Session Visualization Overview canvas tiles
-        var generalSessionTime = document.getElementById("General_Session_Time_Average");
-        var generalSessionSuccess = document.getElementById("General_Session_Success_Average");
-        var expertSessionTime = document.getElementById("Expert_Session_Time_Average");
-        var expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
-        // Set current comparison to tree (Tree = 1 Graph = 2)
-        var sessionOverviewComparisonType = 1;
-        // Create the Radar Visualization on the Session Comparison Overview
-        refreshSessionOverviewChart();
-        // Title is the Title of the visualization
-        // canvasElement is the element on the DOM we are drawing onto
-        // The participant data
-        // Type is a bool value -> true = Time | false = Success
-        function generateNewRadarChart(title, canvasElement, data, type) {
-            var labels = []; // Participants
-            var values = []; // Data Value
-            var timeAverage = 0;
-            var successAverage = 0;
-            // Data Processing (filtering for time or success percentage)
-            data.forEach(element => {
-                labels.push(element.ID);
-                if (type) {
-                    values.push(element.Time_On_Task)
-                } else {
-                    values.push(element.Task_Success * 100)
-                }
-                timeAverage += element.Time_On_Task;
-                successAverage += (element.Task_Success * 100);
-            });
-            timeAverage = timeAverage / data.length;
-            successAverage = successAverage / data.length;
-            // Afix the average value onto the title
-            title = title + ": " + (type ? timeAverage.toFixed(2) + " min" : successAverage.toFixed(2) + "%");
-            new Chart(canvasElement, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: values,
-                        backgroundColor: type ? "rgba(165, 192, 238, 0.5)" : "rgba(251, 197, 236, 0.5)",
-                        fillOpacity: .5,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scale: {
-                        pointLabels: {
-                            fontSize: 15,
-                            fontColor: "#FFFFFF"
-                        },
-                        ticks: {
-                            suggestedMin: 0,
-                            suggestedMax: type ? 50 : 100
-                        }
-                    },
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: title,
-                        fontSize: 30,
-                        fontColor: "#FFFFFF",
-                        fontStyle: "bolder",
-                        padding: 2
-                    }
-                }
-            });
-
-        }
-
-        function destroySessionOverviewCanvas(holder, containerName, canvasName) {
-            var container = document.getElementById(containerName);
-            container.removeChild(holder);
-            var canvas = document.createElement('canvas');
-            canvas.id = canvasName;
-            canvas.className = "tile_canvas";
-            container.appendChild(canvas);
-        }
-
-        function refreshSessionOverviewChart() {
-            destroySessionOverviewCanvas(generalSessionTime, "General_Session_Time_Average_Container",
-                "General_Session_Time_Average");
-            destroySessionOverviewCanvas(expertSessionTime, "Expert_Session_Time_Average_Container",
-                "Expert_Session_Time_Average");
-            destroySessionOverviewCanvas(generalSessionSuccess, "General_Session_Success_Average_Container",
-                "General_Session_Success_Average");
-            destroySessionOverviewCanvas(expertSessionSuccess, "Expert_Session_Success_Average_Container",
-                "Expert_Session_Success_Average");
-            generalSessionTime = document.getElementById("General_Session_Time_Average");
-            generalSessionSuccess = document.getElementById("General_Session_Success_Average");
-            expertSessionTime = document.getElementById("Expert_Session_Time_Average");
-            expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
-            generateNewRadarChart("General Time Average", generalSessionTime, participants
-                .filter((e) => {
-                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
-                }), true);
-            generateNewRadarChart("Expert Time Average", expertSessionTime, participants
-                .filter((e) => {
-                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
-                }), true);
-            generateNewRadarChart("General Success Average", generalSessionSuccess,
-                participants.filter((e) => {
-                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
-                }), false);
-            generateNewRadarChart("Expert Success Average", expertSessionSuccess,
-                participants.filter((e) => {
-                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
-                }), false);
-        }
-
-        function switchSessionOverview(type) {
-            var tree = document.getElementById("Session_Comparison_Tree");
-            var graph = document.getElementById("Session_Comparison_Graph");
-            tree.className = "button space";
-            graph.className = "button space"
-            if (type === "Session_Comparison_Tree") {
-                sessionOverviewComparisonType = 1;
-                tree.className += " button_selected";
-            } else {
-                sessionOverviewComparisonType = 2;
-                graph.className += " button_selected";
-            }
-            refreshSessionOverviewChart();
         }
     </script>
     <!-- Embedded Javascript for Session_Overview -->
@@ -729,50 +540,92 @@
             createCompletionComparisonChart();
         }
     </script>
-
     <!-- Embedded Javascript for Convex_Visualization -->
     <script>
-        var CVactive = false;
-        var CVtreeFXDvis = [treeFXD1, treeFXD2, treeFXD3, treeFXD4, treeFXD5, treeFXD6, treeFXD7,
-            treeFXD10, treeFXD11, treeFXD12, treeFXD13, treeFXD14, treeFXD15, treeFXD16,
-            treeFXD17, treeFXD18, treeFXD19, treeFXD20, treeFXD21, treeFXD23,
-            treeFXD24, treeFXD25, treeFXD27, treeFXD28, treeFXD30,
-            treeFXD31, treeFXD32, treeFXD33, treeFXD34, treeFXD35, treeFXD36];
-        // Defining Functions
-
-        function toggleCVcheckbox(source) {
-            checkboxes = document.getElementsByName('cvCheckbox');
-            for (var i = 0, n = checkboxes.length; i < n; i++) {
-                checkboxes[i].checked = source.checked;
+        // Holds selected Ontology value 1 = General | value 2 = Expert
+        var ConvexHullOntologySelected = 1;
+        // Ignore 8,9,22,26,29
+        const CVtreeFXDvis = [treeFXD1, treeFXD2, treeFXD3, treeFXD4, treeFXD5, treeFXD6, treeFXD7,
+            undefined, undefined, treeFXD10, treeFXD11, treeFXD12, treeFXD13, treeFXD14, treeFXD15, treeFXD16,
+            treeFXD17, treeFXD18, treeFXD19, treeFXD20, treeFXD21, undefined, treeFXD23,
+            treeFXD24, treeFXD25, undefined, treeFXD27, treeFXD28, undefined, treeFXD30,
+            treeFXD31, treeFXD32, treeFXD33, treeFXD34, treeFXD35, treeFXD36
+        ];
+        var treeGeneralConvexData = [];
+        var treeExpertConvexData = [];
+        var graphGeneralConvexData = [];
+        var graphExpertConvexData = [];
+        participants.forEach((participant) => {
+            var numberPattern = /\d+/g;
+            var index = participant.ID.match(numberPattern)[0]; // Get ID number
+            if (CVtreeFXDvis[index] !== undefined) {
+                // General Tree
+                if (participant.Ontologies === 1 && participant.Visualization === 1) {
+                    treeGeneralConvexData.push(CVtreeFXDvis[index]);
+                }
+                // Expert Tree
+                else if (participant.Ontologies === 2 && participant.Visualization === 1) {
+                    treeExpertConvexData.push(CVtreeFXDvis[index]);
+                }
+                // General Graph
+                else if (participant.Ontologies === 1 && participant.Visualization === 2) {
+                    graphGeneralConvexData.push(CVtreeFXDvis[index]);
+                }
+                // Expert Graph
+                else {
+                    graphExpertConvexData.push(CVtreeFXDvis[index]);
+                }
             }
+        })
+        resetConvexHullVisualization();
+
+        function changeConvexHullOntology(value){
+            ConvexHullOntologySelected = value;
+            var general = document.getElementById("ConvexHull_Comparison_General");
+            var expert = document.getElementById("ConvexHull_Comparison_Expert");
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    general.className = "button comparison_button_selected";
+                    break;
+                case 2:
+                    expert.className = "button comparison_button_selected";
+                    break;
+            }
+            resetConvexHullVisualization();
         }
 
+        function resetConvexHullVisualization() {
+            d3.select("#convexhull_tree_visualization").remove();
+            // Refresh Tree
+            d3.select("#convexhull_graph_visualization").remove();
+            var container = document.getElementById("convexhull_tree_visualization_container");
+            var svgContainer = document.createElement("DIV");
+            svgContainer.id = "convexhull_tree_visualization";
+            container.appendChild(svgContainer);
+            // Refresh Graph
+            container = document.getElementById("convexhull_graph_visualization_container");
+            svgContainer = document.createElement("DIV");
+            svgContainer.id = "convexhull_graph_visualization";
+            container.appendChild(svgContainer);
 
-        window.onload = function onLoadFunction() {
-            createTreeSummary();
+            createConvexHullVisualization("#convexhull_tree_visualization",
+                ConvexHullOntologySelected === 1 ? treeGeneralConvexData : treeExpertConvexData)
+            createConvexHullVisualization("#convexhull_graph_visualization",
+                ConvexHullOntologySelected === 1 ? graphGeneralConvexData : graphExpertConvexData)
         }
 
-        function createTreeSummary() {
-            // set the dimensions and margins of the graph
-            if (CVactive) {
-                d3.select("#summary_visualization").remove();
-                var container = document.getElementById("summary_holder");
-                container.className = "cvElement";
-                var svgContainer = document.createElement("DIV");
-                svgContainer.id = "summary_visualization";
-                container.appendChild(svgContainer);
-            }
-            CVactive = true;
+        function createConvexHullVisualization(targetElement, targetData) {
             var margin = {
-                top: 10,
-                right: 0,
-                bottom: 35,
-                left: 62
-            },
-                width = 700,
-                height = 500;
-            // append the svg object to the body of the page
-            var svg = d3.select("#summary_visualization")
+                    top: 10,
+                    right: 0,
+                    bottom: 35,
+                    left: 62
+                },
+                width = 450,
+                height = 450;
+            var svg = d3.select(targetElement)
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -780,153 +633,47 @@
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
 
-            var maxTreeY = -1;
-            var maxTreeX = -1;
-            var minTreeX = -1;
-            var minTreeY = -1;
-            var CVtitle = "Participant(s): ";
-            var CVCheckboxElements = document.getElementsByName("cvCheckbox");
-            for (var i = 0; i < CVCheckboxElements.length; i++) {
-                if (CVCheckboxElements[i].checked) {
-                    if (i >= 0 && i < 7) { // p1-p7
-                        CVtitle = CVtitle + (i + 1).toString() + ", ";
-                    } else if (i >= 7 && i < 22) { //p10-p25 
-                        CVtitle = CVtitle + (i + 3).toString() + ", ";
-                    } else if (i >= 22 && i < 24) { //p27-p28 
-                        CVtitle = CVtitle + (i + 5).toString() + ", ";
-                    } else {
-                        CVtitle = CVtitle + (i + 6).toString() + ", ";
-                    }
-                    if (maxTreeY == -1) {
-                        maxTreeY = getTreeFXDYMax(CVtreeFXDvis[i]);
-                        maxTreeX = getTreeFXDXMax(CVtreeFXDvis[i]);
-                        minTreeX = getTreeFXDXMin(CVtreeFXDvis[i]);
-                        minTreeY = getTreeFXDYMin(CVtreeFXDvis[i]);
-                    } else {
-                        var CVTempMinMax = getTreeFXDYMax(CVtreeFXDvis[i]);
-                        if (CVTempMinMax > maxTreeY) maxTreeY = CVTempMinMax;
-                        CVTempMinMax = getTreeFXDXMax(CVtreeFXDvis[i]);
-                        if (CVTempMinMax > maxTreeX) maxTreeX = CVTempMinMax;
-                        CVTempMinMax = getTreeFXDXMin(CVtreeFXDvis[i]);
-                        if (CVTempMinMax < minTreeX) minTreeX = CVTempMinMax;
-                        CVTempMinMax = getTreeFXDYMin(CVtreeFXDvis[i]);
-                        if (CVTempMinMax < minTreeY) minTreeY = CVTempMinMax;
-                    }
-                }
-            }
-            CVtitle = CVtitle.substring(0, CVtitle.length - 2);
-            if (CVtitle.length > 30) {
-                CVtitle = CVtitle.substring(0, 28) + '\n' + CVtitle.substring(48);
-            }
-
-
-            svg.append("text")
-                .attr("x", (width / 2))
-                .attr("y", 0 - (margin.top / 2) + 10)
-                .attr("text-anchor", "middle")
-                .style("font-size", "16px")
-                .text(CVtitle);
-
-
-
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([minTreeX, maxTreeX])
+                .domain([0, 1400])
                 .range([0, width]);
             svg.append("g")
                 .attr("transform", "translate(" + 0 + "," + (height) + ")")
+                .attr("color", "white")
                 .call(d3.axisBottom(x));
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([maxTreeY, minTreeY])
+                .domain([1200, 0])
                 .range([height, 0]);
             svg.append("g")
                 .call(d3.axisLeft(y));
-
-
-            // Define the div for the tooltip
-            var div = d3.select("body").append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0);
-
-
-            // Formatting data
-
-            for (var i = 0; i < CVCheckboxElements.length; i++) {
-                if (CVCheckboxElements[i].checked) {
-                    var plots = [];
-                    CVtreeFXDvis[i].forEach(element => {
-                        plots.push({
-                            x: parseInt(element.ScreenX, 10),
-                            y: parseInt(element.ScreenY, 10),
-                            color: '#FF0000'
-                        })
+            var counter = 0;
+            targetData.forEach((participantFixationData) => {
+                var currentColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                var plot = [];
+                participantFixationData.forEach((element) => {
+                    plot.push({
+                        x: parseInt(element.ScreenX, 10),
+                        y: parseInt(element.ScreenY, 10),
+                    })
+                })
+                svg.selectAll("polygon" + counter)
+                    .data([plot])
+                    .enter().append("polygon")
+                    .style("fill", function (d) {
+                        return currentColor;
+                    })
+                    .attr("fill-opacity","0.8")
+                    .attr("points", function (d) {
+                        return d.map(function (d) {
+                            return [x(d.x), y(d.y)].join(",");
+                        }).join(" ");
                     });
-                    svg.selectAll("polygon")
-                        .data([plots])
-                        .enter().append("polygon")
-                        .style("fill", function (d) {
-                            var color;
-                            switch (i) {
-                                case 0:
-                                    color = "#00FF00";
-                                    break;
-                                case 1:
-                                    color = "#cc0099";
-                                default: break;
-                            }
-                            return color;
-                        })
-                        .attr("points", function (d) {
-                            return d.map(function (d) {
-                                return [x(d.x), y(d.y)].join(",");
-                            }).join(" ");
-                        });
-                }
-
-            }
-
+                counter++;
+            })
 
         }
-
-        function getTreeFXDYMax(tempTree) {
-            return tempTree.reduce((max, p) => {
-                if (max.constructor === ({}).constructor) {
-                    max = max.ScreenY
-                }
-                return Math.max(p.ScreenY, max);
-            });
-        }
-
-        function getTreeFXDXMax(tempTree) {
-            return tempTree.reduce((max, p) => {
-                if (max.constructor === ({}).constructor) {
-                    max = max.ScreenX
-                }
-                return Math.max(p.ScreenX, max);
-            });
-        }
-
-        function getTreeFXDXMin(tempTree) {
-            return tempTree.reduce((min, p) => {
-                if (min.constructor === ({}).constructor) {
-                    min = min.ScreenX
-                }
-                return Math.min(p.ScreenX, min);
-            });
-        }
-
-        function getTreeFXDYMin(tempTree) {
-            return tempTree.reduce((min, p) => {
-                if (min.constructor === ({}).constructor) {
-                    min = min.ScreenY
-                }
-                return Math.min(p.ScreenY, min);
-            });
-        }
-
-
     </script>
 
 
@@ -1018,23 +765,10 @@
 
     /*Convex Hull CSS */
     polygon {
-        fill: CadetBlue;
         opacity: .3;
     }
-
-    .cvElement {
-
-        border: 1px solid #000;
-        margin-bottom: 5px;
-        text-align: center;
-        background: #eee;
-    }
-
-    .CVboxes {
-        width: 23%;
-        padding: 5px;
-        float: left;
-        margin: 5px;
-        border: 1px solid #aaa;
+    text{
+        color: #FFFFFF !important;
+        fill: #FFFFFF;
     }
 </style>
