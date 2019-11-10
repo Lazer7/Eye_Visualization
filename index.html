@@ -84,21 +84,22 @@
                 <div class="title">Convex Hull Comparison</div>
                 <label class="selector_label">Ontology:</label>
                 <button id="ConvexHull_Comparison_General" class="button comparison_button_selected"
-                onclick="changeConvexHullOntology(1)">
+                    onclick="changeConvexHullOntology(1)">
                     <i class="fas fa-info-circle"></i> &nbsp;
                     General
                 </button>
-                <button id="ConvexHull_Comparison_Expert" class="button"
-                onclick="changeConvexHullOntology(2)">
+                <button id="ConvexHull_Comparison_Expert" class="button" onclick="changeConvexHullOntology(2)">
                     <i class="fas fa-atlas"></i>&nbsp;
                     Expert
                 </button>
                 <div class="tile is-vertical is-ancestor">
                     <div class="tile is-parent">
                         <div id="convexhull_tree_visualization_container" class="tile notification juicy space">
+
                             <div id="convexhull_tree_visualization"></div>
                         </div>
                         <div id="convexhull_graph_visualization_container" class="tile notification juicy space">
+
                             <div id="convexhull_graph_visualization"></div>
                         </div>
                     </div>
@@ -579,7 +580,7 @@
         })
         resetConvexHullVisualization();
 
-        function changeConvexHullOntology(value){
+        function changeConvexHullOntology(value) {
             ConvexHullOntologySelected = value;
             var general = document.getElementById("ConvexHull_Comparison_General");
             var expert = document.getElementById("ConvexHull_Comparison_Expert");
@@ -611,14 +612,16 @@
             container.appendChild(svgContainer);
 
             createConvexHullVisualization("#convexhull_tree_visualization",
-                ConvexHullOntologySelected === 1 ? treeGeneralConvexData : treeExpertConvexData)
+                ConvexHullOntologySelected === 1 ? treeGeneralConvexData : treeExpertConvexData,
+                "Tree")
             createConvexHullVisualization("#convexhull_graph_visualization",
-                ConvexHullOntologySelected === 1 ? graphGeneralConvexData : graphExpertConvexData)
+                ConvexHullOntologySelected === 1 ? graphGeneralConvexData : graphExpertConvexData,
+                "Graph")
         }
 
-        function createConvexHullVisualization(targetElement, targetData) {
+        function createConvexHullVisualization(targetElement, targetData,title) {
             var margin = {
-                    top: 10,
+                    top: 50,
                     right: 0,
                     bottom: 35,
                     left: 62
@@ -648,6 +651,13 @@
                 .range([height, 0]);
             svg.append("g")
                 .call(d3.axisLeft(y));
+
+            svg.append("text")
+                .attr("x",(width/2))
+                .attr("y",0-(margin.top/2)+10)
+                .attr("text-anchor","middle")
+                .style("font-size","50px")
+                .text(title);
             var counter = 0;
             targetData.forEach((participantFixationData) => {
                 var currentColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -664,7 +674,7 @@
                     .style("fill", function (d) {
                         return currentColor;
                     })
-                    .attr("fill-opacity","0.8")
+                    .attr("fill-opacity", "0.8")
                     .attr("points", function (d) {
                         return d.map(function (d) {
                             return [x(d.x), y(d.y)].join(",");
@@ -767,7 +777,8 @@
     polygon {
         opacity: .3;
     }
-    text{
+
+    text {
         color: #FFFFFF !important;
         fill: #FFFFFF;
     }
