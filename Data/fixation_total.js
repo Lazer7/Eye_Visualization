@@ -48,17 +48,14 @@ function addAveragePupil(fxd, filePath) {
     gzd = JSON.parse(fs.readFileSync(filePath));
     fxd.forEach(element => {
         const filtered = gzd.filter(e => parseFloat(e.Time) >= parseFloat(element.Time) && parseFloat(e.Time) < parseFloat(element.Time) + parseFloat(element.Duration));
-        var sumLeft = 0;
-        var sumRight = 0;
-        filtered.forEach(e => {
-            sumLeft += parseFloat(e.LeftPupil);
-            sumRight += parseFloat(e.RightPupil);
-        });
-        const avgLeft = sumLeft / filtered.length;
-        const avgRight = sumRight / filtered.length;
-
-        element.LeftPupil = avgLeft;
-        element.RightPupil = avgRight;
+        var leftPupil = 0;
+        var rightPupil = 0;
+        if (filtered.length != 0) {
+            leftPupil = filtered[0].LeftPupil;
+            rightPupil = filtered[0].RightPupil;
+        }
+        element.LeftPupil = leftPupil;
+        element.RightPupil = rightPupil;
     });
 
     return fxd;
