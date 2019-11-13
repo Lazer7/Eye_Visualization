@@ -384,7 +384,7 @@
 
         function updateTreeTooltip(x, y, value) {
             // + 15 for distance to cursor
-            var transl = 'translate(' + (x + 250) + 'px, ' + (y + 100) + 'px)';
+            var transl = 'translate(' + (x + 250) + 'px, ' + (y + 200) + 'px)';
             treeTooltip.style.webkitTransform = transl;
             treeTooltip.innerHTML = "Total fixation value: " + value;
             // treeTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
@@ -393,7 +393,7 @@
 
         function updateGraphTooltip(x, y, value) {
             // + 15 for distance to cursor
-            var transl = 'translate(' + (x + 1050) + 'px, ' + (y + 100) + 'px)';
+            var transl = 'translate(' + (x + 1050) + 'px, ' + (y + 200) + 'px)';
             graphTooltip.style.webkitTransform = transl;
             // graphTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
             graphTooltip.innerHTML = "Total fixation value: " + value;
