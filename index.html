@@ -386,7 +386,7 @@
             // + 15 for distance to cursor
             var transl = 'translate(' + (x + 250) + 'px, ' + (y + 200) + 'px)';
             treeTooltip.style.webkitTransform = transl;
-            treeTooltip.innerHTML = "Total fixation value: " + value;
+            treeTooltip.innerHTML = "Highest Duration: " + value + " sec";
             // treeTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
 
         };
@@ -396,18 +396,19 @@
             var transl = 'translate(' + (x + 1050) + 'px, ' + (y + 200) + 'px)';
             graphTooltip.style.webkitTransform = transl;
             // graphTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
-            graphTooltip.innerHTML = "Total fixation value: " + value;
+            graphTooltip.innerHTML = "Highest Duration: " + value + " sec";
         };
 
         treeheatmapWrapper.onmousemove = function(ev){
             var x = ev.layerX;
             var y = ev.layerY;
-            // var value;
+            
             var value = treeInstance.getValueAt({
                 x: x,
                 y: y
             });
 
+            value = value/1000;
             treeTooltip.style.display = 'block';
             updateTreeTooltip(x, y, value);
         };
@@ -419,12 +420,13 @@
         grapheatmapWrapper.onmousemove = function(ev){
             var x = ev.layerX;
             var y = ev.layerY;
-            // var value;
+            
             var value = graphInstance.getValueAt({
                 x: x,
                 y: y
             });
 
+            value = value/1000;
             graphTooltip.style.display = 'block';
             updateGraphTooltip(x, y, value);
         }
