@@ -16,6 +16,8 @@
     <script src="https://d3js.org/d3.v4.js"></script>
     <!-- Load ChartsJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
+    <!-- Load heatmap.js -->
+    <script src='http://www.patrick-wied.at/static/heatmapjs/assets/js/heatmap.min.js'></script>
     <!-- data -->
     <script src="Data/Others/participant_data.js"></script>
     <script type="text/javascript" src="Data/json_data/p1/p1treeFXD.json"></script>
@@ -49,6 +51,10 @@
     <script type="text/javascript" src="Data/json_data/p34/p34treeFXD.json"></script>
     <script type="text/javascript" src="Data/json_data/p35/p35treeFXD.json"></script>
     <script type="text/javascript" src="Data/json_data/p36/p36treeFXD.json"></script>
+    <script src="Data/combined_data/generalTree.js"></script>
+    <script src="Data/combined_data/generalGraph.js"></script>
+    <script src="Data/combined_data/expertTree.js"></script>
+    <script src="Data/combined_data/expertGraph.js"></script>
 </head>
 
 <body>
@@ -61,7 +67,7 @@
                         Eye Tracking Visualization
                     </p>
                     <ul class="menu-list">
-                        <li><a onclick="load('Time_Visualization')">Time Path Comparison</a></li>
+                        <li><a onclick="load('Fixation_Visualization')">Fixation Comparison</a></li>
                         <li><a onclick="load('Convex_Visualization')">Convex Hull Comparison</a></li>
                     </ul>
                     <p class="menu-label">
@@ -79,6 +85,42 @@
         <!-- End of context menu HTML -->
         <!-- This section is the Visualization Code for every visualization image we are creating -->
         <div class="column">
+            <div id="Fixation_Visualization" class="start">
+                <div class="title">Fixation Visualization</div>
+                <div>
+                    <label class="selector_label">Ontology:</label>
+                    <button id="Fixation_Visualization_General" class="button comparison_button_selected"
+                            onclick="refreshFixationVisualization(1)"><i class="fas fa-info-circle"></i> &nbsp;
+                        General
+                    </button>
+                    <button id="Fixation_Visualization_Expert" class="button"
+                            onclick="refreshFixationVisualization(2)"><i class="fas fa-atlas"></i> &nbsp;
+                        Expert
+                    </button>
+                </div>
+                <br>
+                <heatmapSection>
+                    <div
+                        id='treeHeatmap' class="heatmap" style="width: 800px">
+                        <center class="label">Tree</center>
+                        <img src="./Assets/monitor.png"></img>
+                    </div>
+                    <div
+                        id='graphHeatmap' class="heatmap" style="width: 800px">
+                        <center class="label">Graph</center>
+                        <img src="./Assets/monitor.png"></img>
+                    </div>
+                </heatmapSection>
+            </div>
+            <div id="Convex_Visualization" class="default"> Convex Visualization </div>
+            <div id="Participant_Visualization" class="default">
+                <div class="title">Participant Overview</div>
+                <button id="Session_Comparison_Tree" class="button space button_selected"
+                    onclick="switchSessionOverview('Session_Comparison_Tree')"><i class="fas fa-tree"></i> &nbsp;
+                    Tree</button>
+                <button id="Session_Comparison_Graph" class="button space"
+                    onclick="switchSessionOverview('Session_Comparison_Graph')"><i class="fas fa-project-diagram"></i>
+                    &nbsp; Graph</button>
             <div id="Time_Visualization" class="default"> Time Visualization </div>
             <div id="Convex_Visualization" class="start">
                 <div class="title">Convex Hull Comparison</div>
@@ -164,13 +206,196 @@
     <!-- Embedded Javascript for the context menu-->
     <script>
         function load(id) {
-            document.getElementById("Time_Visualization").style.display = "none";
+            document.getElementById("Fixation_Visualization").style.display = "none";
             document.getElementById("Convex_Visualization").style.display = "none";
             document.getElementById("Session_Overview").style.display = "none";
             document.getElementById("Time_Comparison").style.display = "none";
             document.getElementById("Completion_Comparison").style.display = "none";
             document.getElementById("Session_Comparison").style.display = "none";
             document.getElementById(id).style.display = "block";
+        }
+    </script>
+    <!-- Embedded Javascript for the Fixation_Visualization-->
+    <script>
+        var treeInstance = h337.create({
+            container: document.getElementById('treeHeatmap')
+        });
+        var graphInstance = h337.create({
+            container: document.getElementById('graphHeatmap')
+        });
+
+        refreshFixationVisualization(1);
+
+        function refreshFixationVisualization(value) {
+            fixationVisualizationSelectorValue = value;
+            var general = document.getElementById("Fixation_Visualization_General");
+            var expert = document.getElementById("Fixation_Visualization_Expert");
+            general.className = "button";
+            expert.className = "button";
+            switch (value) {
+                case 1:
+                    general.className = "button comparison_button_selected";
+                    treeInstance.setData(getTotalFixationData(generalTreeFXD));
+                    graphInstance.setData(getTotalFixationData(generalGraphFXD));
+                    break;
+                case 2:
+                    expert.className = "button comparison_button_selected";
+                    treeInstance.setData(getTotalFixationData(expertTreeFXD));
+                    graphInstance.setData(getTotalFixationData(expertGraphFXD));
+                    break;
+            }
+        }
+
+        function getTotalFixationData(heatmapList) {
+            var heatmapPoints = [];
+            var heatmapMax = 0;
+
+            heatmapList.forEach(number => {
+                number.forEach(element => {
+                    heatmapMax = Math.max(heatmapMax, element.Duration);
+                    var heatmapPoint = {
+                        x: element.ScreenX/2.19375 + 36,
+                        y: element.ScreenY/2.19375 + 68,
+                        value: element.Duration,
+                        radius: element.Duration / 80
+                    };
+                    heatmapPoints.push(heatmapPoint)
+                })
+            });
+
+            var heatmapData = {
+                max: heatmapMax,
+                data: heatmapPoints
+            };
+            return heatmapData;
+        }
+    </script>
+    <!-- Embedded Javascript for Participant_Overview-->
+    <script>
+        // Locating Session Visualization Overview canvas tiles
+        var generalSessionTime = document.getElementById("General_Session_Time_Average");
+        var generalSessionSuccess = document.getElementById("General_Session_Success_Average");
+        var expertSessionTime = document.getElementById("Expert_Session_Time_Average");
+        var expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
+        // Set current comparison to tree (Tree = 1 Graph = 2)
+        var sessionOverviewComparisonType = 1;
+        // Create the Radar Visualization on the Session Comparison Overview
+        refreshSessionOverviewChart();
+        // Title is the Title of the visualization
+        // canvasElement is the element on the DOM we are drawing onto
+        // The participant data
+        // Type is a bool value -> true = Time | false = Success
+        function generateNewRadarChart(title, canvasElement, data, type) {
+            var labels = []; // Participants
+            var values = []; // Data Value
+            var timeAverage = 0;
+            var successAverage = 0;
+            // Data Processing (filtering for time or success percentage)
+            data.forEach(element => {
+                labels.push(element.ID);
+                if (type) {
+                    values.push(element.Time_On_Task)
+                } else {
+                    values.push(element.Task_Success * 100)
+                }
+                timeAverage += element.Time_On_Task;
+                successAverage += (element.Task_Success * 100);
+            });
+            timeAverage = timeAverage / data.length;
+            successAverage = successAverage / data.length;
+            // Afix the average value onto the title
+            title = title + ": " + (type ? timeAverage.toFixed(2) + " min" : successAverage.toFixed(2) + "%");
+            new Chart(canvasElement, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: type ? "rgba(165, 192, 238, 0.5)" : "rgba(251, 197, 236, 0.5)",
+                        fillOpacity: .5,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scale: {
+                        pointLabels: {
+                            fontSize: 15,
+                            fontColor: "#FFFFFF"
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: type ? 50 : 100
+                        }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: title,
+                        fontSize: 30,
+                        fontColor: "#FFFFFF",
+                        fontStyle: "bolder",
+                        padding: 2
+                    }
+                }
+            });
+
+        }
+
+        function destroySessionOverviewCanvas(holder, containerName, canvasName) {
+            var container = document.getElementById(containerName);
+            container.removeChild(holder);
+            var canvas = document.createElement('canvas');
+            canvas.id = canvasName;
+            canvas.className = "tile_canvas";
+            container.appendChild(canvas);
+        }
+
+        function refreshSessionOverviewChart() {
+            destroySessionOverviewCanvas(generalSessionTime, "General_Session_Time_Average_Container",
+                "General_Session_Time_Average");
+            destroySessionOverviewCanvas(expertSessionTime, "Expert_Session_Time_Average_Container",
+                "Expert_Session_Time_Average");
+            destroySessionOverviewCanvas(generalSessionSuccess, "General_Session_Success_Average_Container",
+                "General_Session_Success_Average");
+            destroySessionOverviewCanvas(expertSessionSuccess, "Expert_Session_Success_Average_Container",
+                "Expert_Session_Success_Average");
+            generalSessionTime = document.getElementById("General_Session_Time_Average");
+            generalSessionSuccess = document.getElementById("General_Session_Success_Average");
+            expertSessionTime = document.getElementById("Expert_Session_Time_Average");
+            expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
+            generateNewRadarChart("General Time Average", generalSessionTime, participants
+                .filter((e) => {
+                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
+                }), true);
+            generateNewRadarChart("Expert Time Average", expertSessionTime, participants
+                .filter((e) => {
+                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
+                }), true);
+            generateNewRadarChart("General Success Average", generalSessionSuccess,
+                participants.filter((e) => {
+                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
+                }), false);
+            generateNewRadarChart("Expert Success Average", expertSessionSuccess,
+                participants.filter((e) => {
+                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
+                }), false);
+        }
+
+        function switchSessionOverview(type) {
+            var tree = document.getElementById("Session_Comparison_Tree");
+            var graph = document.getElementById("Session_Comparison_Graph");
+            tree.className = "button space";
+            graph.className = "button space"
+            if (type === "Session_Comparison_Tree") {
+                sessionOverviewComparisonType = 1;
+                tree.className += " button_selected";
+            } else {
+                sessionOverviewComparisonType = 2;
+                graph.className += " button_selected";
+            }
+            refreshSessionOverviewChart();
         }
     </script>
     <!-- Embedded Javascript for Session_Overview -->
@@ -697,6 +922,20 @@
 <style>
     html {
         background-image: linear-gradient(#a5c0ee, #fbc5ec);
+    }
+
+    heatmapSection {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        grid-auto-flow: row;
+        width: 1600px;
+        height: 1200px;
+    }
+
+
+    .img {
+      position:absolute;
     }
 
     .columns,
