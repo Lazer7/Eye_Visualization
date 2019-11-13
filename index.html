@@ -86,6 +86,7 @@
     <script src="Data/combined_data/generalGraph.js"></script>
     <script src="Data/combined_data/expertTree.js"></script>
     <script src="Data/combined_data/expertGraph.js"></script>
+
 </head>
 
 <body>
@@ -120,13 +121,19 @@
                 <div>
                     <label class="selector_label">Ontology:</label>
                     <button id="Fixation_Visualization_General" class="button comparison_button_selected"
-                        onclick="refreshFixationVisualization(1)"><i class="fas fa-info-circle"></i> &nbsp;
+                            onclick="selectOntology(1)"><i class="fas fa-info-circle"></i> &nbsp;
                         General
                     </button>
                     <button id="Fixation_Visualization_Expert" class="button"
-                        onclick="refreshFixationVisualization(2)"><i class="fas fa-atlas"></i> &nbsp;
+                            onclick="selectOntology(2)"><i class="fas fa-atlas"></i> &nbsp;
                         Expert
                     </button>
+                    <!--  slider -->
+                    <div class = "slidecontainer">
+                        <p>Pupil Dilation Slider</p>
+                        <input type = "range", min = "2", max = "4", value = "2", step = ".2" class = "slider", id = "rangeSlider", onchange="refreshFixationVisualization(this.value)">
+                    </div> 
+                    <div id = "output"> </div>
                 </div>
                 <br>
                 <heatmapSection>
@@ -134,11 +141,15 @@
                         <center class="label">Tree</center>
                         <img src="./Assets/monitor.png"></img>
                     </div>
-                    <div id='graphHeatmap' class="heatmap" style="width: 800px">
+                    <div class = "tooltip" id="treeTooltip" style="display: inline-block"></div>
+                    <div
+                        id='graphHeatmap' class="heatmap" style="width: 800px">
                         <center class="label">Graph</center>
                         <img src="./Assets/monitor.png"></img>
                     </div>
+                    <div class = "tooltip" id="graphTooltip" style="display: inline-block"></div>
                 </heatmapSection>
+ 
             </div>
             <div id="Convex_Visualization" class="default">
                 <div class="title">Convex Hull Comparison</div>
@@ -233,8 +244,13 @@
             document.getElementById(id).style.display = "block";
         }
     </script>
+
     <!-- Embedded Javascript for the Fixation_Visualization-->
     <script>
+        var isGeneral = true;
+        var ontology = 1;
+
+
         var treeInstance = h337.create({
             container: document.getElementById('treeHeatmap')
         });
@@ -242,50 +258,312 @@
             container: document.getElementById('graphHeatmap')
         });
 
-        refreshFixationVisualization(1);
+        refreshFixationVisualization(ontology);
 
-        function refreshFixationVisualization(value) {
-            fixationVisualizationSelectorValue = value;
-            var general = document.getElementById("Fixation_Visualization_General");
-            var expert = document.getElementById("Fixation_Visualization_Expert");
-            general.className = "button";
-            expert.className = "button";
-            switch (value) {
-                case 1:
-                    general.className = "button comparison_button_selected";
-                    treeInstance.setData(getTotalFixationData(generalTreeFXD));
-                    graphInstance.setData(getTotalFixationData(generalGraphFXD));
-                    break;
-                case 2:
-                    expert.className = "button comparison_button_selected";
-                    treeInstance.setData(getTotalFixationData(expertTreeFXD));
-                    graphInstance.setData(getTotalFixationData(expertGraphFXD));
-                    break;
+        // slider code
+
+        var slider = document.getElementById("rangeSlider");
+        var output = document.getElementById("output");
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+            output.innerHTML = "Pupil Dilation: " + this.value + " +/- .1" + " mm";
+            refreshFixationVisualization(ontology, parseFloat(this.value) ); //passes in pupil dilation and ontology
+        }
+        
+        // slider code end
+
+        function selectOntology(value){
+            ontology = value;
+            refreshFixationVisualization(ontology);
+        }
+        
+        function refreshFixationVisualization(value, pupilSize) {
+            if(pupilSize == undefined){
+                fixationVisualizationSelectorValue = value;
+                var general = document.getElementById("Fixation_Visualization_General");
+                var expert = document.getElementById("Fixation_Visualization_Expert");
+                general.className = "button";
+                expert.className = "button";
+                switch (value) {
+                    case 1:
+                        general.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(generalTreeFXD));
+                        graphInstance.setData(getTotalFixationData(generalGraphFXD));
+                        isGeneral = true;
+                        break;
+                    case 2:
+                        expert.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(expertTreeFXD));
+                        graphInstance.setData(getTotalFixationData(expertGraphFXD));
+                        isGeneral = false;
+                        break;
+                }
             }
+            else{
+                fixationVisualizationSelectorValue = value;
+                var general = document.getElementById("Fixation_Visualization_General");
+                var expert = document.getElementById("Fixation_Visualization_Expert");
+                general.className = "button";
+                expert.className = "button";
+                switch (value) {
+                    case 1:
+                        general.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(generalTreeFXD, pupilSize));
+                        graphInstance.setData(getTotalFixationData(generalGraphFXD, pupilSize));
+                        isGeneral = true;
+                        break;
+                    case 2:
+                        expert.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(expertTreeFXD, pupilSize));
+                        graphInstance.setData(getTotalFixationData(expertGraphFXD, pupilSize));
+                        isGeneral = false;
+                        break;
+                }
+            }
+            
         }
 
-        function getTotalFixationData(heatmapList) {
-            var heatmapPoints = [];
-            var heatmapMax = 0;
+        function getTotalFixationData(heatmapList, pupilSize) {
+            parseFloat(pupilSize);
+            if(pupilSize == undefined){
+                var heatmapPoints = [];
+                var heatmapMax = 0;
 
-            heatmapList.forEach(number => {
-                number.forEach(element => {
-                    heatmapMax = Math.max(heatmapMax, element.Duration);
-                    var heatmapPoint = {
-                        x: element.ScreenX / 2.19375 + 36,
-                        y: element.ScreenY / 2.19375 + 68,
-                        value: element.Duration,
-                        radius: element.Duration / 80
-                    };
-                    heatmapPoints.push(heatmapPoint)
-                })
+                heatmapList.forEach(number => {
+                    number.forEach(element => {
+                        heatmapMax = Math.max(heatmapMax, element.Duration);
+                        var heatmapPoint = {
+                            x: element.ScreenX/2.19375 + 36,
+                            y: element.ScreenY/2.19375 + 68,
+                            value: element.Duration,
+                            radius: element.Duration / 80
+                        };
+                        heatmapPoints.push(heatmapPoint)
+                    })
+                });
+
+                var heatmapData = {
+                    max: heatmapMax,
+                    data: heatmapPoints
+                };
+
+                return heatmapData;
+            }
+            else{ //using pupilSize
+                var heatmapPoints = [];
+                var heatmapMax = 0;
+                var pupilUpperBound = pupilSize + .1;
+                var pupilLowerBound = pupilSize - .1;
+                heatmapList.forEach(number => {
+                    number.forEach(element => {
+                        heatmapMax = Math.max(heatmapMax, element.Duration);
+                        if( (element.LeftPupil >= pupilLowerBound && element.LeftPupil <= pupilUpperBound  ) || (element.RightPupil >= pupilLowerBound && element.RightPupil <= pupilUpperBound) ){ //only accept points within pupil dilation range
+                            var heatmapPoint = {
+                            x: element.ScreenX/2.19375 + 36,
+                            y: element.ScreenY/2.19375 + 68,
+                            value: element.Duration,
+                            radius: element.Duration / 80
+                            };
+                            heatmapPoints.push(heatmapPoint)
+                        }
+                        
+                    })
+                });
+
+                var heatmapData = {
+                    max: heatmapMax,
+                    data: heatmapPoints
+                };
+                return heatmapData;
+            }
+            
+        }
+
+        // hover info
+        var treeheatmapWrapper = document.getElementById("treeHeatmap");
+        var grapheatmapWrapper = document.getElementById("graphHeatmap");
+        var treeTooltip = document.getElementById("treeTooltip");
+        var graphTooltip = document.getElementById("graphTooltip");
+
+        function updateTreeTooltip(x, y, value) {
+            // + 15 for distance to cursor
+            var transl = 'translate(' + (x + 250) + 'px, ' + (y + 100) + 'px)';
+            treeTooltip.style.webkitTransform = transl;
+            treeTooltip.innerHTML = "Total fixation value: " + value;
+            // treeTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
+        
+        };
+
+        function updateGraphTooltip(x, y, value) {
+            // + 15 for distance to cursor
+            var transl = 'translate(' + (x + 1050) + 'px, ' + (y + 100) + 'px)';
+            graphTooltip.style.webkitTransform = transl;
+            // graphTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
+            graphTooltip.innerHTML = "Total fixation value: " + value;
+        };
+
+        treeheatmapWrapper.onmousemove = function(ev){
+            var x = ev.layerX;
+            var y = ev.layerY;
+            // var value;
+            var value = treeInstance.getValueAt({
+                x: x,
+                y: y
+            });
+            
+            treeTooltip.style.display = 'block';
+            updateTreeTooltip(x, y, value);
+        };
+
+        treeheatmapWrapper.onmouseout = function(){
+            treeTooltip.style.display = 'none'
+        }
+
+        grapheatmapWrapper.onmousemove = function(ev){
+            var x = ev.layerX;
+            var y = ev.layerY;
+            // var value;
+            var value = graphInstance.getValueAt({
+                x: x,
+                y: y
+            });
+            
+            graphTooltip.style.display = 'block';
+            updateGraphTooltip(x, y, value);
+        }
+
+        grapheatmapWrapper.onmouseout = function(){
+            graphTooltip.style.display = 'none'
+        }
+
+    </script>
+    <!-- Embedded Javascript for Participant_Overview-->
+    <script>
+        // Locating Session Visualization Overview canvas tiles
+        var generalSessionTime = document.getElementById("General_Session_Time_Average");
+        var generalSessionSuccess = document.getElementById("General_Session_Success_Average");
+        var expertSessionTime = document.getElementById("Expert_Session_Time_Average");
+        var expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
+        // Set current comparison to tree (Tree = 1 Graph = 2)
+        var sessionOverviewComparisonType = 1;
+        // Create the Radar Visualization on the Session Comparison Overview
+        refreshSessionOverviewChart();
+        // Title is the Title of the visualization
+        // canvasElement is the element on the DOM we are drawing onto
+        // The participant data
+        // Type is a bool value -> true = Time | false = Success
+        function generateNewRadarChart(title, canvasElement, data, type) {
+            var labels = []; // Participants
+            var values = []; // Data Value
+            var timeAverage = 0;
+            var successAverage = 0;
+            // Data Processing (filtering for time or success percentage)
+            data.forEach(element => {
+                labels.push(element.ID);
+                if (type) {
+                    values.push(element.Time_On_Task)
+                } else {
+                    values.push(element.Task_Success * 100)
+                }
+                timeAverage += element.Time_On_Task;
+                successAverage += (element.Task_Success * 100);
+            });
+            timeAverage = timeAverage / data.length;
+            successAverage = successAverage / data.length;
+            // Afix the average value onto the title
+            title = title + ": " + (type ? timeAverage.toFixed(2) + " min" : successAverage.toFixed(2) + "%");
+            new Chart(canvasElement, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: type ? "rgba(165, 192, 238, 0.5)" : "rgba(251, 197, 236, 0.5)",
+                        fillOpacity: .5,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scale: {
+                        pointLabels: {
+                            fontSize: 15,
+                            fontColor: "#FFFFFF"
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: type ? 50 : 100
+                        }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: title,
+                        fontSize: 30,
+                        fontColor: "#FFFFFF",
+                        fontStyle: "bolder",
+                        padding: 2
+                    }
+                }
             });
 
-            var heatmapData = {
-                max: heatmapMax,
-                data: heatmapPoints
-            };
-            return heatmapData;
+        }
+
+        function destroySessionOverviewCanvas(holder, containerName, canvasName) {
+            var container = document.getElementById(containerName);
+            container.removeChild(holder);
+            var canvas = document.createElement('canvas');
+            canvas.id = canvasName;
+            canvas.className = "tile_canvas";
+            container.appendChild(canvas);
+        }
+
+        function refreshSessionOverviewChart() {
+            destroySessionOverviewCanvas(generalSessionTime, "General_Session_Time_Average_Container",
+                "General_Session_Time_Average");
+            destroySessionOverviewCanvas(expertSessionTime, "Expert_Session_Time_Average_Container",
+                "Expert_Session_Time_Average");
+            destroySessionOverviewCanvas(generalSessionSuccess, "General_Session_Success_Average_Container",
+                "General_Session_Success_Average");
+            destroySessionOverviewCanvas(expertSessionSuccess, "Expert_Session_Success_Average_Container",
+                "Expert_Session_Success_Average");
+            generalSessionTime = document.getElementById("General_Session_Time_Average");
+            generalSessionSuccess = document.getElementById("General_Session_Success_Average");
+            expertSessionTime = document.getElementById("Expert_Session_Time_Average");
+            expertSessionSuccess = document.getElementById("Expert_Session_Success_Average");
+            generateNewRadarChart("General Time Average", generalSessionTime, participants
+                .filter((e) => {
+                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
+                }), true);
+            generateNewRadarChart("Expert Time Average", expertSessionTime, participants
+                .filter((e) => {
+                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
+                }), true);
+            generateNewRadarChart("General Success Average", generalSessionSuccess,
+                participants.filter((e) => {
+                    return e.Ontologies === 1 && e.Visualization === sessionOverviewComparisonType;
+                }), false);
+            generateNewRadarChart("Expert Success Average", expertSessionSuccess,
+                participants.filter((e) => {
+                    return e.Ontologies === 2 && e.Visualization === sessionOverviewComparisonType;
+                }), false);
+        }
+
+        function switchSessionOverview(type) {
+            var tree = document.getElementById("Session_Comparison_Tree");
+            var graph = document.getElementById("Session_Comparison_Graph");
+            tree.className = "button space";
+            graph.className = "button space"
+            if (type === "Session_Comparison_Tree") {
+                sessionOverviewComparisonType = 1;
+                tree.className += " button_selected";
+            } else {
+                sessionOverviewComparisonType = 2;
+                graph.className += " button_selected";
+            }
+            refreshSessionOverviewChart();
         }
     </script>
     <!-- Embedded Javascript for Session_Overview -->
@@ -660,7 +938,6 @@
     <script>
         // Holds selected Ontology value 1 = General | value 2 = Expert
         var ConvexHullOntologySelected = 1;
-        console.log(treeFXD1);
         // Ignore 8,9,22,26,29
         const CVtreeFXDvis = [treeFXD1, treeFXD2, treeFXD3, treeFXD4, treeFXD5, treeFXD6, treeFXD7,
             undefined, undefined, treeFXD10, treeFXD11, treeFXD12, treeFXD13, treeFXD14, treeFXD15, treeFXD16,
@@ -907,6 +1184,63 @@
         background-color: #603F83FF;
         color: #FFFFFF;
     }
+
+    /* slider styles */
+    .slidecontainer {
+    width: 100%; /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 50%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    }
+
+    /* hover styles */
+    .tooltip { 
+        position:absolute; 
+        left:0; 
+        top:0; 
+        background:rgba(0,0,0,.8); 
+        color:white; 
+        font-size:14px; 
+        /* padding:5px;  */
+        line-height:18px; 
+        display:none;
+    }
+    #treeHeatmap {
+         position:relative;
+    }
+
 
 
     /*Convex Hull CSS */
