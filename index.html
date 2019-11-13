@@ -129,11 +129,12 @@
                         Expert
                     </button>
                     <!--  slider -->
+                    <br/><br/>
                     <div class = "slidecontainer">
-                        <p>Pupil Dilation Slider</p>
+                        <p class="subtitle">Pupil Dilation Slider</p>
                         <input type = "range", min = "2", max = "4", value = "2", step = ".2" class = "slider", id = "rangeSlider", onchange="refreshFixationVisualization(this.value)">
                     </div> 
-                    <div id = "output"> </div>
+                    <div id = "output" class="subtitle"> </div>
                 </div>
                 <br>
                 <heatmapSection>
@@ -1194,9 +1195,9 @@
     .slider {
     -webkit-appearance: none;  /* Override default CSS styles */
     appearance: none;
-    width: 50%; /* Full-width */
+    width: 80%; /* Full-width */
     height: 25px; /* Specified height */
-    background: #d3d3d3; /* Grey background */
+    background: #d2d2d2; /* Grey background */
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
@@ -1214,14 +1215,14 @@
     appearance: none;
     width: 25px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
+    background: #603F83FF; /* Green background */
     cursor: pointer; /* Cursor on hover */
     }
 
     .slider::-moz-range-thumb {
     width: 25px; /* Set a specific slider handle width */
     height: 25px; /* Slider handle height */
-    background: #4CAF50; /* Green background */
+    background: #603F83FF; /* Green background */
     cursor: pointer; /* Cursor on hover */
     }
 
@@ -1240,7 +1241,10 @@
     #treeHeatmap {
          position:relative;
     }
-
+    .subtitle{
+        font-size: 20px;
+        font-weight: bolder;
+    }
 
 
     /*Convex Hull CSS */
