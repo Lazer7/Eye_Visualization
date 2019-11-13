@@ -24,6 +24,7 @@
     <script src="Data/combined_data/generalGraph.js"></script>
     <script src="Data/combined_data/expertTree.js"></script>
     <script src="Data/combined_data/expertGraph.js"></script>
+
 </head>
 
 <body>
@@ -60,13 +61,23 @@
                 <div>
                     <label class="selector_label">Ontology:</label>
                     <button id="Fixation_Visualization_General" class="button comparison_button_selected"
-                            onclick="refreshFixationVisualization(1)"><i class="fas fa-info-circle"></i> &nbsp;
+                            onclick="selectOntology(1)"><i class="fas fa-info-circle"></i> &nbsp;
                         General
                     </button>
                     <button id="Fixation_Visualization_Expert" class="button"
-                            onclick="refreshFixationVisualization(2)"><i class="fas fa-atlas"></i> &nbsp;
+                            onclick="selectOntology(2)"><i class="fas fa-atlas"></i> &nbsp;
                         Expert
                     </button>
+                    <!--  slider -->
+                    <div class = "slidecontainer">
+                        <p>Pupil Dilation Slider</p>
+                        <input type = "range", min = "2", max = "4", value = "2", step = ".2" class = "slider", id = "rangeSlider", onchange="refreshFixationVisualization(this.value)">
+                    </div> 
+                    <div id = "output"> </div>
+                    <!--  slider -->
+
+
+
                 </div>
                 <br>
                 <heatmapSection>
@@ -75,12 +86,15 @@
                         <center class="label">Tree</center>
                         <img src="./Assets/monitor.png"></img>
                     </div>
+                    <div class = "tooltip" id="treeTooltip" style="display: inline-block"></div>
                     <div
                         id='graphHeatmap' class="heatmap" style="width: 800px">
                         <center class="label">Graph</center>
                         <img src="./Assets/monitor.png"></img>
                     </div>
+                    <div class = "tooltip" id="graphTooltip" style="display: inline-block"></div>
                 </heatmapSection>
+ 
             </div>
             <div id="Convex_Visualization" class="default"> Convex Visualization </div>
             <div id="Participant_Visualization" class="default">
@@ -180,8 +194,13 @@
             document.getElementById(id).style.display = "block";
         }
     </script>
+
     <!-- Embedded Javascript for the Fixation_Visualization-->
     <script>
+        var isGeneral = true;
+        var ontology = 1;
+
+
         var treeInstance = h337.create({
             container: document.getElementById('treeHeatmap')
         });
@@ -189,52 +208,207 @@
             container: document.getElementById('graphHeatmap')
         });
 
-        refreshFixationVisualization(1);
+        refreshFixationVisualization(ontology);
 
-        function refreshFixationVisualization(value) {
-            fixationVisualizationSelectorValue = value;
-            var general = document.getElementById("Fixation_Visualization_General");
-            var expert = document.getElementById("Fixation_Visualization_Expert");
-            general.className = "button";
-            expert.className = "button";
-            switch (value) {
-                case 1:
-                    general.className = "button comparison_button_selected";
-                    treeInstance.setData(getTotalFixationData(generalTreeFXD));
-                    graphInstance.setData(getTotalFixationData(generalGraphFXD));
-                    break;
-                case 2:
-                    expert.className = "button comparison_button_selected";
-                    treeInstance.setData(getTotalFixationData(expertTreeFXD));
-                    graphInstance.setData(getTotalFixationData(expertGraphFXD));
-                    break;
+        // slider code
+
+        var slider = document.getElementById("rangeSlider");
+        var output = document.getElementById("output");
+        // output.innerHTML = "Pupil Dilation: " +  slider.value + " mm"; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+            output.innerHTML = "Pupil Dilation: " + this.value + " +/- .1" + " mm";
+            // console.log("ontology: ", ontology)
+            refreshFixationVisualization(ontology, parseFloat(this.value) ); //passes in pupil dilation and ontology
+        }
+        
+        // slider code end
+
+        function selectOntology(value){
+            ontology = value;
+            refreshFixationVisualization(ontology);
+        }
+        
+        function refreshFixationVisualization(value, pupilSize) {
+            if(pupilSize == undefined){
+                fixationVisualizationSelectorValue = value;
+                var general = document.getElementById("Fixation_Visualization_General");
+                var expert = document.getElementById("Fixation_Visualization_Expert");
+                general.className = "button";
+                expert.className = "button";
+                switch (value) {
+                    case 1:
+                        general.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(generalTreeFXD));
+                        graphInstance.setData(getTotalFixationData(generalGraphFXD));
+                        isGeneral = true;
+                        break;
+                    case 2:
+                        expert.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(expertTreeFXD));
+                        graphInstance.setData(getTotalFixationData(expertGraphFXD));
+                        isGeneral = false;
+                        break;
+                }
             }
+            else{
+                fixationVisualizationSelectorValue = value;
+                var general = document.getElementById("Fixation_Visualization_General");
+                var expert = document.getElementById("Fixation_Visualization_Expert");
+                general.className = "button";
+                expert.className = "button";
+                switch (value) {
+                    case 1:
+                        general.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(generalTreeFXD, pupilSize));
+                        graphInstance.setData(getTotalFixationData(generalGraphFXD, pupilSize));
+                        isGeneral = true;
+                        break;
+                    case 2:
+                        expert.className = "button comparison_button_selected";
+                        treeInstance.setData(getTotalFixationData(expertTreeFXD, pupilSize));
+                        graphInstance.setData(getTotalFixationData(expertGraphFXD, pupilSize));
+                        isGeneral = false;
+                        break;
+                }
+            }
+            
         }
 
-        function getTotalFixationData(heatmapList) {
-            var heatmapPoints = [];
-            var heatmapMax = 0;
+        function getTotalFixationData(heatmapList, pupilSize) {
+            // console.log("type of pupilSize: ", typeof(pupilSize) );
+            parseFloat(pupilSize);
+            // console.log("type of pupilSize now: ", typeof(pupilSize));
+            if(pupilSize == undefined){
+                var heatmapPoints = [];
+                var heatmapMax = 0;
 
-            heatmapList.forEach(number => {
-                number.forEach(element => {
-                    heatmapMax = Math.max(heatmapMax, element.Duration);
-                    var heatmapPoint = {
-                        x: element.ScreenX/2.19375 + 36,
-                        y: element.ScreenY/2.19375 + 68,
-                        value: element.Duration,
-                        radius: element.Duration / 80
-                    };
-                    heatmapPoints.push(heatmapPoint)
-                })
+                heatmapList.forEach(number => {
+                    number.forEach(element => {
+                        heatmapMax = Math.max(heatmapMax, element.Duration);
+                        var heatmapPoint = {
+                            x: element.ScreenX/2.19375 + 36,
+                            y: element.ScreenY/2.19375 + 68,
+                            value: element.Duration,
+                            radius: element.Duration / 80
+                        };
+                        heatmapPoints.push(heatmapPoint)
+                    })
+                });
+
+                var heatmapData = {
+                    max: heatmapMax,
+                    data: heatmapPoints
+                };
+
+                // console.log("heat map max: ", heatmapMax);
+
+                return heatmapData;
+            }
+            else{ //using pupilSize
+                var heatmapPoints = [];
+                var heatmapMax = 0;
+                var pupilUpperBound = pupilSize + .1;
+                var pupilLowerBound = pupilSize - .1;
+                // console.log("type of pupil upper: ", typeof(pupilUpperBound));
+                // console.log("type of pupil lower: ", typeof(pupilLowerBound));
+                // console.log("pupil upper: ", pupilUpperBound);
+                // console.log("pupil lower: ", pupilLowerBound);
+                heatmapList.forEach(number => {
+                    number.forEach(element => {
+                        heatmapMax = Math.max(heatmapMax, element.Duration);
+                        // console.log("left pupil: ", element.LeftPupil);
+                        // console.log("right pupil: ", element.RightPupil);
+                        if( (element.LeftPupil >= pupilLowerBound && element.LeftPupil <= pupilUpperBound  ) || (element.RightPupil >= pupilLowerBound && element.RightPupil <= pupilUpperBound) ){ //only accept points within pupil dilation range
+                            var heatmapPoint = {
+                            x: element.ScreenX/2.19375 + 36,
+                            y: element.ScreenY/2.19375 + 68,
+                            value: element.Duration,
+                            radius: element.Duration / 80
+                            };
+                            heatmapPoints.push(heatmapPoint)
+                        }
+                        
+                    })
+                });
+
+                var heatmapData = {
+                    max: heatmapMax,
+                    data: heatmapPoints
+                };
+
+                // console.log("heat map max: ", heatmapMax);
+
+                return heatmapData;
+            }
+            
+        }
+
+        // hover info
+        var treeheatmapWrapper = document.getElementById("treeHeatmap");
+        var grapheatmapWrapper = document.getElementById("graphHeatmap");
+        var treeTooltip = document.getElementById("treeTooltip");
+        var graphTooltip = document.getElementById("graphTooltip");
+
+        function updateTreeTooltip(x, y, value) {
+            // console.log("Tree tooltip info: ", value);
+            // + 15 for distance to cursor
+            var transl = 'translate(' + (x + 250) + 'px, ' + (y + 100) + 'px)';
+            treeTooltip.style.webkitTransform = transl;
+            treeTooltip.innerHTML = "Total fixation value: " + value;
+            // treeTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
+        
+        };
+
+        function updateGraphTooltip(x, y, value) {
+            // console.log("Graph tooltip info: ", value);    
+            // + 15 for distance to cursor
+            var transl = 'translate(' + (x + 1050) + 'px, ' + (y + 100) + 'px)';
+            graphTooltip.style.webkitTransform = transl;
+            // graphTooltip.innerHTML = "left pupil: " + value[0] + ", " + "right pupil: " + value[1];
+            graphTooltip.innerHTML = "Total fixation value: " + value;
+        };
+
+        treeheatmapWrapper.onmousemove = function(ev){
+            var x = ev.layerX;
+            var y = ev.layerY;
+            // var value;
+            var value = treeInstance.getValueAt({
+                x: x,
+                y: y
             });
+            
+            treeTooltip.style.display = 'block';
+            updateTreeTooltip(x, y, value);
+        };
 
-            var heatmapData = {
-                max: heatmapMax,
-                data: heatmapPoints
-            };
-            return heatmapData;
+        treeheatmapWrapper.onmouseout = function(){
+            treeTooltip.style.display = 'none'
         }
+
+        grapheatmapWrapper.onmousemove = function(ev){
+            var x = ev.layerX;
+            var y = ev.layerY;
+            // var value;
+            var value = graphInstance.getValueAt({
+                x: x,
+                y: y
+            });
+            
+            graphTooltip.style.display = 'block';
+            updateGraphTooltip(x, y, value);
+        }
+
+        grapheatmapWrapper.onmouseout = function(){
+            graphTooltip.style.display = 'none'
+        }
+
     </script>
+
+
+
+
     <!-- Embedded Javascript for Participant_Overview-->
     <script>
         // Locating Session Visualization Overview canvas tiles
@@ -732,7 +906,17 @@
         }
     </script>
 
+    <!-- slider script -->
+    <!-- <script>
+        var slider = document.getElementById("rangeSlider");
+        var output = document.getElementById("output");
+        output.innerHTML = "Pupil Dilation: " +  slider.value + " mm"; // Display the default slider value
 
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+        output.innerHTML = "Pupil Dilation: " + this.value + " mm";
+        }
+    </script> -->
 
 
 
@@ -833,4 +1017,61 @@
         background-color: #603F83FF;
         color: #FFFFFF;
     }
+
+    /* slider styles */
+    .slidecontainer {
+    width: 100%; /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 50%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    }
+
+    /* hover styles */
+    .tooltip { 
+        position:absolute; 
+        left:0; 
+        top:0; 
+        background:rgba(0,0,0,.8); 
+        color:white; 
+        font-size:14px; 
+        /* padding:5px;  */
+        line-height:18px; 
+        display:none;
+    }
+    #treeHeatmap {
+         position:relative;
+    }
+
 </style>
