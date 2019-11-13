@@ -14,17 +14,17 @@ for (var i = 1; i <= 36; i++) {
     if (i % 2 == 1) {
         if (fs.existsSync(treeFXDPath) && fs.existsSync(graphFXDPath)) {
             console.log(i + ": Tree General -> Graph Expert");
-            fxd = addAveragePupil(JSON.parse(fs.readFileSync(treeFXDPath)), treeGZDPath);
+            fxd = addPupil(JSON.parse(fs.readFileSync(treeFXDPath)), treeGZDPath);
             generalTree.push(fxd);
-            fxd = addAveragePupil(JSON.parse(fs.readFileSync(graphFXDPath)), graphGZDPath);
+            fxd = addPupil(JSON.parse(fs.readFileSync(graphFXDPath)), graphGZDPath);
             expertGraph.push(fxd);
         }
     } else {
         if (fs.existsSync(treeFXDPath) && fs.existsSync(graphFXDPath)) {
             console.log(i + ": Graph General -> Tree Expert");
-            fxd = addAveragePupil(JSON.parse(fs.readFileSync(graphFXDPath)), graphGZDPath);
+            fxd = addPupil(JSON.parse(fs.readFileSync(graphFXDPath)), graphGZDPath);
             generalGraph.push(fxd);
-            fxd = addAveragePupil(JSON.parse(fs.readFileSync(treeFXDPath)), treeGZDPath);
+            fxd = addPupil(JSON.parse(fs.readFileSync(treeFXDPath)), treeGZDPath);
             expertTree.push(fxd);
         }
     }
@@ -44,7 +44,7 @@ function write(list, filepath) {
     });
 }
 
-function addAveragePupil(fxd, filePath) {
+function addPupil(fxd, filePath) {
     gzd = JSON.parse(fs.readFileSync(filePath));
     fxd.forEach(element => {
         const filtered = gzd.filter(e => parseFloat(e.Time) >= parseFloat(element.Time) && parseFloat(e.Time) < parseFloat(element.Time) + parseFloat(element.Duration));
