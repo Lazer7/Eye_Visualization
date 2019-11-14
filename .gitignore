@@ -4,3 +4,5 @@
 # test code & data
 test/
 
+# python jupyter notebook related
+.ipynb_checkpoints/

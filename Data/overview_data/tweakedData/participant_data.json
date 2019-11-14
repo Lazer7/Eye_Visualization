@@ -1,0 +1,498 @@
+[
+  {
+    "P_ID": "p1",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.608695652,
+    "Time_On_Task": 26,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p1",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 38,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p3",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 10,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p3",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 50,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p5",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 22,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p5",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 27,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p7",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 16,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p7",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.086956522,
+    "Time_On_Task": 20,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p11",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 15,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p11",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.347826087,
+    "Time_On_Task": 33,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p13",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 35,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p13",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 27,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p15",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 9,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p15",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 13,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p17",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 14,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p17",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.608695652,
+    "Time_On_Task": 22,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p19",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 14,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p19",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 72,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p21",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 16,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p21",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 6,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p23",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 13,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p23",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 58,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p25",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 34,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p25",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.347826087,
+    "Time_On_Task": 39,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p27",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.260869565,
+    "Time_On_Task": 13,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p27",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.086956522,
+    "Time_On_Task": 50,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p31",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 14,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p31",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 44,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p33",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 22,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p33",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.347826087,
+    "Time_On_Task": 27,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p35",
+    "Ontology": 1,
+    "Visualization": 1,
+    "Task_Success": 0.608695652,
+    "Time_On_Task": 9,
+    "Session_Type": 1
+  },
+  {
+    "P_ID": "p35",
+    "Ontology": 2,
+    "Visualization": 2,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 37,
+    "Session_Type": 4
+  },
+  {
+    "P_ID": "p2",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.347826087,
+    "Time_On_Task": 19,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p2",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 25,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p4",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 12,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p4",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 9,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p6",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.869565217,
+    "Time_On_Task": 26,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p6",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.739130435,
+    "Time_On_Task": 43,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p10",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.608695652,
+    "Time_On_Task": 17,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p10",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 29,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p12",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.304347826,
+    "Time_On_Task": 17,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p12",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.695652174,
+    "Time_On_Task": 11,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p14",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 15,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p14",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.217391304,
+    "Time_On_Task": 28,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p16",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 28,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p16",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 29,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p18",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.739130435,
+    "Time_On_Task": 21,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p18",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 27,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p20",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 30,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p20",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 23,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p24",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 32,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p24",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.739130435,
+    "Time_On_Task": 25,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p28",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 10,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p28",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 13,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p30",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.391304348,
+    "Time_On_Task": 23,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p30",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.47826087,
+    "Time_On_Task": 32,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p32",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.304347826,
+    "Time_On_Task": 21,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p32",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.347826087,
+    "Time_On_Task": 12,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p34",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.608695652,
+    "Time_On_Task": 38,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p34",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.565217391,
+    "Time_On_Task": 49,
+    "Session_Type": 2
+  },
+  {
+    "P_ID": "p36",
+    "Ontology": 1,
+    "Visualization": 2,
+    "Task_Success": 0.434782609,
+    "Time_On_Task": 21,
+    "Session_Type": 3
+  },
+  {
+    "P_ID": "p36",
+    "Ontology": 2,
+    "Visualization": 1,
+    "Task_Success": 0.52173913,
+    "Time_On_Task": 15,
+    "Session_Type": 2
+  }
+]
