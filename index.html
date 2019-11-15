@@ -109,7 +109,9 @@
                         <li><a onclick="load('Session_Overview')">Overview</a></li>
                         <li><a onclick="load('Time_Comparison')">Time Comparison</a></li>
                         <li><a onclick="load('Completion_Comparison')">Completion Comparison</a></li>
+                        <li><a href="overviewRadarChart.html" target="_blank">Overview Radar</a></li>
                     </ul>
+                    
                 </aside>
             </div>
         </div>
@@ -179,6 +181,7 @@
             </div>
 
             <div id="Time_Visualization" class="default"> Time Visualization </div>
+            
             <div id="Session_Overview" class="default">
                 <div class="title">Session Overview</div>
                 <div class="tile is-vertical is-ancestor">
@@ -191,8 +194,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
             <div id="Time_Comparison" class="default">
                 <div class="title">Time Comparison Visualization</div>
                 <div>
@@ -709,6 +712,12 @@
             })
         }
     </script>
+
+    <!-- Embedded Javascript for Overview_Radar -->
+    <script>
+    
+    </script>
+
     <!-- Embedded Javascript for Time_Comparison -->
     <script>
         var timeComparisonVisualizaton = document.getElementById("time_comparison_visualization");

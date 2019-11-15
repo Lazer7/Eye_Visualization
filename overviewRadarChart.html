@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>Overview Radar</title>
+  <!-- Bootstrap -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Radar Chart -->
+  <link rel="stylesheet" href="https://rawgit.com/tpreusse/radar-chart-d3/master/src/radar-chart.css">
+
+  <style>
+  body {
+    padding: 10px;
+  }
+  .radar-chart .area {
+    fill-opacity: 0.7;
+  }
+  .radar-chart.focus .area {
+    fill-opacity: 0.3;
+  }
+  .radar-chart.focus .area.focused {
+    fill-opacity: 0.9;
+  }
+  .area.tree, .tree .circle {
+    fill: rgb(255, 115, 0);
+    stroke: none;
+  }
+  .area.graph, .graph .circle {
+    fill: rgb(0, 211, 158);
+    stroke: none;
+  }
+  /* text.legend {
+    font-size: 1em;
+  } */
+  </style>
+</head>
+
+
+<body>
+  <!-- title -->
+  <h2>Overview Radar Chart</h2>
+  <!-- buttons -->
+  <div class="pl-4">
+    <button id="generalBtn" class="btn btn-sm btn-secondary"
+      onclick="changeDataset('general')">
+      General
+    </button>
+    <button id="generalBtn" class="btn btn-sm btn-secondary"
+    onclick="changeDataset('expert')">
+      Expert
+    </button>
+  </div>
+  <!-- svg -->
+  <div class="p-4">
+    <svg id="overviewRadarSVG"><g id="radarG"></g></svg>
+  </div>
+
+
+  <!-- SCRIPT ----------------------------------------------->
+
+  <script src="https://d3js.org/d3.v3.js"></script>
+  <!-- <script src="https://d3js.org/d3.v5.min.js"></script>     -->
+  <script src="https://rawgit.com/tpreusse/radar-chart-d3/master/src/radar-chart.js"></script>
+
+  <script>
+  RadarChart.defaultConfig.color = function() {};
+  RadarChart.defaultConfig.radius = 3;
+  RadarChart.defaultConfig.w = 400;
+  RadarChart.defaultConfig.h = 400;
+  </script>
+
+  <span></span>
+
+
+  <!-- <script src="Data/overview_data.js"></script> -->
+  <script>
+  var data_generalOnt = [
+      {
+        className: 'tree',
+        axes: [
+          {axis: "time", value: 17.625}, 
+          {axis: "fixations", value: 2186.0}, 
+          // {axis: "scanpath", value: 325244.0625},  
+          {axis: "avg saccadic length", value: 146.736},  
+          {axis: "convexhull area", value: 3790.6875},
+          {axis: "clicks", value: 320.25}
+        ]
+      },
+      {
+        className: 'graph',
+        axes: [
+          {axis: "time", value: 22.0}, 
+          {axis: "fixations", value: 2946.8667}, 
+          // {axis: "scanpath", value: 423643.0667},  
+          {axis: "avg saccadic length", value: 150.8973},  
+          {axis: "convexhull area", value: 3790.6875},
+          {axis: "clicks", value: 320.25}
+        ]
+      }
+  ];
+  var data_expertOnt = [
+      {
+          className: 'tree',
+          axes: [
+            {axis: "time", value: 24.6667}, 
+            {axis: "fixations", value: 3133.9333}, 
+            // {axis: "scanpath", value: 388910.7333},  
+            {axis: "avg saccadic length", value: 127.186},  
+            {axis: "convexhull area", value: 3842.4667},
+            {axis: "clicks", value: 445.5333}
+          ]
+      },
+      {
+          className: 'graph',
+          axes: [
+            {axis: "time", value: 35.1875}, 
+            {axis: "fixations", value: 4281.25}, 
+            // {axis: "scanpath", value: 545657.3125},  
+            {axis: "avg saccadic length", value: 126.6657},  
+            {axis: "convexhull area", value: 4068.5},
+            {axis: "clicks", value: 746.25}
+          ]
+      }
+  ];
+
+  function changeDataset(type){
+    if(type == "general") {
+      render(data_generalOnt);
+    } else {
+      render(data_expertOnt);
+    }
+  }
+
+  </script>
+
+  <!-- rendering radar chart -->
+  <script>
+  function render(data) {
+    var chart = RadarChart.chart();
+    var cfg = chart.config(); // retrieve default config
+    var svg = d3.select('#overviewRadarSVG')
+      .attr('width', cfg.w + cfg.w + 50)
+      .attr('height', cfg.h + cfg.h / 4);
+    svg.select('#radarG')
+      .classed('single', 1)
+      .datum(data).call(chart);
+  }
+
+  render(data_generalOnt);
+  </script>
+
+</body>
+
+</html>
