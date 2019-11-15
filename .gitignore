@@ -1,0 +1,8 @@
+# MacOS specific directory config
+.DS_Store
+
+# test code & data
+test/
+
+# python jupyter notebook related
+.ipynb_checkpoints/
