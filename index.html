@@ -110,7 +110,7 @@
                         <li><a onclick="load('Time_Comparison')">Time Comparison</a></li>
                         <li><a onclick="load('Completion_Comparison')">Completion Comparison</a></li>
                     </ul>
-                    
+
                 </aside>
             </div>
         </div>
@@ -133,7 +133,7 @@
                     <br/><br/>
                     <div class = "slidecontainer">
                         <p class="subtitle">Pupil Dilation Slider</p>
-                        <input type = "range", min = "2", max = "4", value = "2", step = ".2" class = "slider", id = "rangeSlider", onchange="refreshFixationVisualization(this.value)">
+                        <input type = "range", min = "2", max = "6", value = "2", step = ".2" class = "slider", id = "rangeSlider">
                     </div>
                     <div id = "output" class="subtitle"> </div>
                 </div>
@@ -180,7 +180,7 @@
             </div>
 
             <div id="Time_Visualization" class="default"> Time Visualization </div>
-            
+
             <div id="Session_Overview" class="default">
                 <div class="title">Session Overview</div>
                 <div class="tile is-vertical is-ancestor">
@@ -260,8 +260,6 @@
             container: document.getElementById('graphHeatmap')
         });
 
-        refreshFixationVisualization(ontology);
-
         // slider code
 
         var slider = document.getElementById("rangeSlider");
@@ -273,6 +271,8 @@
             refreshFixationVisualization(ontology, parseFloat(this.value) ); //passes in pupil dilation and ontology
         }
 
+        refreshFixationVisualization(ontology);
+
         // slider code end
 
         function selectOntology(value){
@@ -282,18 +282,20 @@
 
         function refreshFixationVisualization(value, pupilSize) {
             if(pupilSize == undefined){
+                output.innerHTML = "";
                 fixationVisualizationSelectorValue = value;
                 var general = document.getElementById("Fixation_Visualization_General");
                 var expert = document.getElementById("Fixation_Visualization_Expert");
-                general.className = "button";
-                expert.className = "button";
+
                 switch (value) {
                     case 1:
+                        expert.className = "button";
                         general.className = "button comparison_button_selected";
                         treeInstance.setData(getTotalFixationData(generalTreeFXD));
                         graphInstance.setData(getTotalFixationData(generalGraphFXD));
                         break;
                     case 2:
+                        general.className = "button";
                         expert.className = "button comparison_button_selected";
                         treeInstance.setData(getTotalFixationData(expertTreeFXD));
                         graphInstance.setData(getTotalFixationData(expertGraphFXD));
@@ -404,7 +406,7 @@
         treeheatmapWrapper.onmousemove = function(ev){
             var x = ev.layerX;
             var y = ev.layerY;
-            
+
             var value = treeInstance.getValueAt({
                 x: x,
                 y: y
@@ -422,7 +424,7 @@
         grapheatmapWrapper.onmousemove = function(ev){
             var x = ev.layerX;
             var y = ev.layerY;
-            
+
             var value = graphInstance.getValueAt({
                 x: x,
                 y: y
@@ -714,7 +716,7 @@
 
     <!-- Embedded Javascript for Overview_Radar -->
     <script>
-    
+
     </script>
 
     <!-- Embedded Javascript for Time_Comparison -->
