@@ -10,7 +10,7 @@
 
   <style>
   body {
-    padding: 10px;
+    padding: 20px;
   }
   .radar-chart .area {
     fill-opacity: 0.7;
@@ -22,11 +22,13 @@
     fill-opacity: 0.9;
   }
   .area.tree, .tree .circle {
-    fill: rgb(255, 115, 0);
+    /* fill: rgb(255, 115, 0); */
+    fill: red;
     stroke: none;
   }
   .area.graph, .graph .circle {
-    fill: rgb(0, 211, 158);
+    /* fill: rgb(0, 211, 158); */
+    fill: blue;
     stroke: none;
   }
   /* text.legend {
@@ -38,21 +40,25 @@
 
 <body>
   <!-- title -->
-  <h2>Overview Radar Chart</h2>
+  <h2>Overview on Visualization Types</h2>
   <!-- buttons -->
-  <div class="pl-4">
+  <div class="">
     <button id="generalBtn" class="btn btn-sm btn-secondary"
-      onclick="changeDataset('general')">
+      onclick="changeOntology('general')">
       General
     </button>
     <button id="generalBtn" class="btn btn-sm btn-secondary"
-    onclick="changeDataset('expert')">
+    onclick="changeOntology('expert')">
       Expert
     </button>
+    <p id="ontologyLabel" class="pt-2">General Ontology</p>
   </div>
   <!-- svg -->
-  <div class="p-4">
-    <svg id="overviewRadarSVG"><g id="radarG"></g></svg>
+  <div class="p-2">
+    <svg id="overviewRadarSVG">
+      <g id="radarG"></g>
+      <g id="legendG"></g>
+    </svg>
   </div>
 
 
@@ -62,91 +68,190 @@
   <!-- <script src="https://d3js.org/d3.v5.min.js"></script>     -->
   <script src="https://rawgit.com/tpreusse/radar-chart-d3/master/src/radar-chart.js"></script>
 
-  <script>
-  RadarChart.defaultConfig.color = function() {};
-  RadarChart.defaultConfig.radius = 3;
-  RadarChart.defaultConfig.w = 400;
-  RadarChart.defaultConfig.h = 400;
-  </script>
-
-  <span></span>
-
 
   <!-- <script src="Data/overview_data.js"></script> -->
   <script>
-  var data_generalOnt = [
-      {
-        className: 'tree',
-        axes: [
-          {axis: "time", value: 17.625}, 
-          {axis: "fixations", value: 2186.0}, 
-          // {axis: "scanpath", value: 325244.0625},  
-          {axis: "avg saccadic length", value: 146.736},  
-          {axis: "convexhull area", value: 3790.6875},
-          {axis: "clicks", value: 320.25}
-        ]
-      },
-      {
-        className: 'graph',
-        axes: [
-          {axis: "time", value: 22.0}, 
-          {axis: "fixations", value: 2946.8667}, 
-          // {axis: "scanpath", value: 423643.0667},  
-          {axis: "avg saccadic length", value: 150.8973},  
-          {axis: "convexhull area", value: 3790.6875},
-          {axis: "clicks", value: 320.25}
-        ]
-      }
-  ];
-  var data_expertOnt = [
-      {
-          className: 'tree',
-          axes: [
-            {axis: "time", value: 24.6667}, 
-            {axis: "fixations", value: 3133.9333}, 
-            // {axis: "scanpath", value: 388910.7333},  
-            {axis: "avg saccadic length", value: 127.186},  
-            {axis: "convexhull area", value: 3842.4667},
-            {axis: "clicks", value: 445.5333}
-          ]
-      },
-      {
+    var data_generalOnt = [
+        {
           className: 'graph',
           axes: [
-            {axis: "time", value: 35.1875}, 
-            {axis: "fixations", value: 4281.25}, 
-            // {axis: "scanpath", value: 545657.3125},  
-            {axis: "avg saccadic length", value: 126.6657},  
-            {axis: "convexhull area", value: 4068.5},
-            {axis: "clicks", value: 746.25}
+            {axis: "success", value: 0.5007}, 
+            {axis: "time", value: 22.0}, 
+            {axis: "fixations", value: 2946.8667}, 
+            {axis: "scanpath", value: 423643.0667},  
+            {axis: "avg saccadic length", value: 150.8973},  
+            {axis: "convexhull area", value: 3790.6875},
+            {axis: "clicks", value: 320.25}
           ]
+        },
+        {
+          className: 'tree',
+          axes: [
+            {axis: "success", value: 0.495}, 
+            {axis: "time", value: 17.625}, 
+            {axis: "fixations", value: 2186.0}, 
+            {axis: "scanpath", value: 325244.0625},  
+            {axis: "avg saccadic length", value: 146.736},  
+            {axis: "convexhull area", value: 3790.6875},
+            {axis: "clicks", value: 320.25}
+          ]
+        }
+    ];
+    var data_expertOnt = [
+        {
+            className: 'graph',
+            axes: [
+              {axis: "success", value: 0.4081}, 
+              {axis: "time", value: 35.1875}, 
+              {axis: "fixations", value: 4281.25}, 
+              {axis: "scanpath", value: 545657.3125},  
+              {axis: "avg saccadic length", value: 126.6657},  
+              {axis: "convexhull area", value: 4068.5},
+              {axis: "clicks", value: 746.25}
+            ]
+        },
+        {
+            className: 'tree',
+            axes: [
+              {axis: "success", value: 0.514}, 
+              {axis: "time", value: 24.6667}, 
+              {axis: "fixations", value: 3133.9333}, 
+              {axis: "scanpath", value: 388910.7333},  
+              {axis: "avg saccadic length", value: 127.186},  
+              {axis: "convexhull area", value: 3842.4667},
+              {axis: "clicks", value: 445.5333}
+            ]
+        }
+    ];
+  </script>
+
+  <script>
+    function changeOntology(type){
+      var ontologyLabel = d3.select('#ontologyLabel');
+      if(type == "general") {
+        ontologyLabel.text('General Ontology');
+        render(data_generalOnt);
+      } else if (type == "expert") {
+        ontologyLabel.text('Expert Ontology');
+        render(data_expertOnt);
+      } else {
+        console.log('wrong parameter to changeOntology('+type+"')");
       }
-  ];
-
-  function changeDataset(type){
-    if(type == "general") {
-      render(data_generalOnt);
-    } else {
-      render(data_expertOnt);
     }
-  }
+  </script>
 
+  <!-- scaling value for radar chart -->
+  <script>
+    function scaleValues(data) {
+      var scaledData = [];
+      //Copying array and object by value;
+      data.forEach(function(d,i){
+        var newD = {className: "", axes: []};
+        //copy className
+        newD.className = d.className;
+        //copy axes
+        d.axes.forEach(function(axis){
+          var newAxis = {};
+          Object.assign(newAxis, axis);
+          newD.axes.push(newAxis);
+        });
+        scaledData.push(newD);
+      });
+
+      
+      console.log('Setting scales for overview radar chart.');
+      var successScale = d3.scale.linear()
+          .domain([0, 1])
+          .range([0, 100])
+          .nice();
+      var taskTimeScale = d3.scale.linear()
+          .domain([0, 36])
+          .range([0, 100])
+          .nice();
+      var totalFixScale = d3.scale.linear()
+          .domain([0, 4300])
+          .range([0, 100])
+          .nice();
+      var scanPathScale = d3.scale.linear()
+          .domain([0, 550000])
+          .range([0, 100])
+          .nice();
+      var saccadicLengthScale = d3.scale.linear()
+          .domain([0, 151])
+          .range([0, 100])
+          .nice();
+      var convexAreaScale = d3.scale.linear()
+          .domain([0, 4100])
+          .range([0, 100])
+          .nice();
+      var totalClickScale = d3.scale.linear()
+          .domain([0, 750])
+          .range([0, 100])
+          .nice();
+
+      scaledData.forEach(function(d,i){
+        d.axes.forEach(function(axis){
+          if (axis.axis == "success"){
+            axis.value = successScale(axis.value);
+          }
+          else if (axis.axis == "time"){
+            axis.value = taskTimeScale(axis.value);
+          }
+          else if (axis.axis == "fixations"){
+            axis.value = totalFixScale(axis.value);
+          }
+          else if (axis.axis == "avg saccadic length"){
+            axis.value = saccadicLengthScale(axis.value);
+          }
+          else if (axis.axis == "convexhull area"){
+            axis.value = convexAreaScale(axis.value);
+          }
+          else if (axis.axis == "clicks"){
+            axis.value = totalClickScale(axis.value);
+          }
+          else if (axis.axis == "scanpath"){
+            axis.value = scanPathScale(axis.value);
+          }
+        });
+      });
+      console.log('scaled data:');
+      console.log(scaledData);
+      return scaledData;
+    }
+  </script>
+  
+  <!-- radar chart configuration -->
+  <script>
+    RadarChart.defaultConfig.color = function() {};
+    RadarChart.defaultConfig.radius = 5;
+    RadarChart.defaultConfig.w = 500;
+    RadarChart.defaultConfig.h = 500;
+    RadarChart.defaultConfig.transitionDuration = 500;
+    // RadarChart.defaultConfig.minValue = 0;
+    // RadarChart.defaultConfig.maxValue = 100;
+    RadarChart.defaultConfig.factorLegend = 1;
   </script>
 
   <!-- rendering radar chart -->
   <script>
-  function render(data) {
-    var chart = RadarChart.chart();
-    var cfg = chart.config(); // retrieve default config
-    var svg = d3.select('#overviewRadarSVG')
-      .attr('width', cfg.w + cfg.w + 50)
-      .attr('height', cfg.h + cfg.h / 4);
-    svg.select('#radarG')
-      .classed('single', 1)
-      .datum(data).call(chart);
-  }
+    function render(data) {
+      var scaledData = scaleValues(data);
 
-  render(data_generalOnt);
+      var chart = RadarChart.chart();
+      var cfg = chart.config(); // retrieve default config
+      var svg = d3.select('#overviewRadarSVG')
+        .attr('width', cfg.w + cfg.w + 50)
+        .attr('height', cfg.h + cfg.h / 4);
+      svg.select('#radarG')
+        .classed('single', 1)
+        .datum(scaledData).call(chart);
+
+      var legendG = d3.select('#legendG');
+      legendG.append('circle').attr('class','tree circle');
+      legendG.attr('transform',`translate(${cfg.w},10)`);
+    }
+
+    render(data_generalOnt);
   </script>
 
 </body>
