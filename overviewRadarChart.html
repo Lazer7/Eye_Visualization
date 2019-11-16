@@ -12,6 +12,14 @@
   body {
     padding: 20px;
   }
+  .unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
   .radar-chart .area {
     fill-opacity: 0.7;
   }
@@ -31,18 +39,25 @@
     fill: blue;
     stroke: none;
   }
-  /* text.legend {
+  .treeLegend {
+    fill: red;
+  }
+  .graphLegend {
+    fill: blue;
+  }
+  .radar-chart .axis .legend {
     font-size: 1em;
-  } */
+    text-anchor: middle;
+  }
   </style>
 </head>
 
 
 <body>
   <!-- title -->
-  <h2>Overview on Visualization Types</h2>
+  <h2>Overview Comparison</h2>
   <!-- buttons -->
-  <div class="">
+  <div id="optionDiv" class="">
     <button id="generalBtn" class="btn btn-sm btn-secondary"
       onclick="changeOntology('general')">
       General
@@ -54,10 +69,21 @@
     <p id="ontologyLabel" class="pt-2">General Ontology</p>
   </div>
   <!-- svg -->
-  <div class="p-2">
-    <svg id="overviewRadarSVG">
-      <g id="radarG"></g>
-      <g id="legendG"></g>
+  <div id="svgDiv" class="p-2">
+    <svg id="overviewRadarSVG" class="unselectable">
+      <g id="radarChartG" transform='translate(10,0)'>
+        <g id="radarG"></g>
+        <g id="legendG" transform='translate(10,0)'>
+          <g id="legendTree" transform='translate(0,10)'>
+            <circle cy='3' r='6' class="treeLegend"></circle>
+            <text x='15' y='6'>tree</text>
+          </g>
+          <g id="legendTree" transform='translate(0,30)'>
+            <circle cy='3' r='6' class="graphLegend"></circle>
+            <text x='15' y='6'>graph</text>
+          </g>
+        </g>
+      </g>
     </svg>
   </div>
 
@@ -75,25 +101,27 @@
         {
           className: 'graph',
           axes: [
-            {axis: "success", value: 0.5007}, 
+            {axis: "task success", value: 0.5007}, 
             {axis: "time", value: 22.0}, 
             {axis: "fixations", value: 2946.8667}, 
             {axis: "scanpath", value: 423643.0667},  
             {axis: "avg saccadic length", value: 150.8973},  
-            {axis: "convexhull area", value: 3790.6875},
-            {axis: "clicks", value: 320.25}
+            {axis: "convexhull", value: 3790.6875},
+            {axis: "clicks", value: 320.25},
+            {axis: "pupil dilation", value: 0.0009}
           ]
         },
         {
           className: 'tree',
           axes: [
-            {axis: "success", value: 0.495}, 
+            {axis: "task success", value: 0.495}, 
             {axis: "time", value: 17.625}, 
             {axis: "fixations", value: 2186.0}, 
             {axis: "scanpath", value: 325244.0625},  
             {axis: "avg saccadic length", value: 146.736},  
-            {axis: "convexhull area", value: 3790.6875},
-            {axis: "clicks", value: 320.25}
+            {axis: "convexhull", value: 3790.6875},
+            {axis: "clicks", value: 320.25},
+            {axis: "pupil dilation", value: 0.1075}
           ]
         }
     ];
@@ -101,25 +129,27 @@
         {
             className: 'graph',
             axes: [
-              {axis: "success", value: 0.4081}, 
+              {axis: "task success", value: 0.4081}, 
               {axis: "time", value: 35.1875}, 
               {axis: "fixations", value: 4281.25}, 
               {axis: "scanpath", value: 545657.3125},  
               {axis: "avg saccadic length", value: 126.6657},  
-              {axis: "convexhull area", value: 4068.5},
-              {axis: "clicks", value: 746.25}
+              {axis: "convexhull", value: 4068.5},
+              {axis: "clicks", value: 746.25},
+              {axis: "pupil dilation", value: 0.0939}
             ]
         },
         {
             className: 'tree',
             axes: [
-              {axis: "success", value: 0.514}, 
+              {axis: "task success", value: 0.514}, 
               {axis: "time", value: 24.6667}, 
               {axis: "fixations", value: 3133.9333}, 
               {axis: "scanpath", value: 388910.7333},  
               {axis: "avg saccadic length", value: 127.186},  
-              {axis: "convexhull area", value: 3842.4667},
-              {axis: "clicks", value: 445.5333}
+              {axis: "convexhull", value: 3842.4667},
+              {axis: "clicks", value: 445.5333},
+              {axis: "pupil dilation", value: 0.0598}
             ]
         }
     ];
@@ -142,8 +172,12 @@
 
   <!-- scaling value for radar chart -->
   <script>
-    function scaleValues(data) {
+    function scaleValues(data)
+    {
+      console.log('Setting scales for overview radar chart.');
+      
       var scaledData = [];
+
       //Copying array and object by value;
       data.forEach(function(d,i){
         var newD = {className: "", axes: []};
@@ -158,40 +192,24 @@
         scaledData.push(newD);
       });
 
-      
-      console.log('Setting scales for overview radar chart.');
-      var successScale = d3.scale.linear()
-          .domain([0, 1])
+      //set scales
+      var scale = d3.scale.linear()
           .range([0, 100])
           .nice();
-      var taskTimeScale = d3.scale.linear()
-          .domain([0, 36])
-          .range([0, 100])
-          .nice();
-      var totalFixScale = d3.scale.linear()
-          .domain([0, 4300])
-          .range([0, 100])
-          .nice();
-      var scanPathScale = d3.scale.linear()
-          .domain([0, 550000])
-          .range([0, 100])
-          .nice();
-      var saccadicLengthScale = d3.scale.linear()
-          .domain([0, 151])
-          .range([0, 100])
-          .nice();
-      var convexAreaScale = d3.scale.linear()
-          .domain([0, 4100])
-          .range([0, 100])
-          .nice();
-      var totalClickScale = d3.scale.linear()
-          .domain([0, 750])
-          .range([0, 100])
-          .nice();
+      // TODO: var successMax = d3.max()
+      var successScale = scale.copy().domain([0, 1]);
+      var taskTimeScale = scale.copy().domain([0, 36]);
+      var totalFixScale = scale.copy().domain([0, 4282]);
+      var scanPathScale = scale.copy().domain([0, 545658]);
+      var saccadeScale = scale.copy().domain([0, 151]);
+      var convexAreaScale = scale.copy().domain([0, 4080]);
+      var totalClickScale = scale.copy().domain([0, 747]);
+      var pupilDilationScale = scale.copy().domain([0, 0.2]);
 
+      //scale the values on axes
       scaledData.forEach(function(d,i){
         d.axes.forEach(function(axis){
-          if (axis.axis == "success"){
+          if (axis.axis == "task success"){
             axis.value = successScale(axis.value);
           }
           else if (axis.axis == "time"){
@@ -200,20 +218,24 @@
           else if (axis.axis == "fixations"){
             axis.value = totalFixScale(axis.value);
           }
-          else if (axis.axis == "avg saccadic length"){
-            axis.value = saccadicLengthScale(axis.value);
+          else if (axis.axis == "scanpath"){
+            axis.value = scanPathScale(axis.value);
           }
-          else if (axis.axis == "convexhull area"){
+          else if (axis.axis == "avg saccadic length"){
+            axis.value = saccadeScale(axis.value);
+          }
+          else if (axis.axis == "convexhull"){
             axis.value = convexAreaScale(axis.value);
           }
           else if (axis.axis == "clicks"){
             axis.value = totalClickScale(axis.value);
           }
-          else if (axis.axis == "scanpath"){
-            axis.value = scanPathScale(axis.value);
+          else if (axis.axis == "pupil dilation"){
+            axis.value = pupilDilationScale(axis.value);
           }
         });
       });
+      
       console.log('scaled data:');
       console.log(scaledData);
       return scaledData;
@@ -223,13 +245,12 @@
   <!-- radar chart configuration -->
   <script>
     RadarChart.defaultConfig.color = function() {};
-    RadarChart.defaultConfig.radius = 5;
+    RadarChart.defaultConfig.radius = 6;
     RadarChart.defaultConfig.w = 500;
     RadarChart.defaultConfig.h = 500;
     RadarChart.defaultConfig.transitionDuration = 500;
-    // RadarChart.defaultConfig.minValue = 0;
-    // RadarChart.defaultConfig.maxValue = 100;
-    RadarChart.defaultConfig.factorLegend = 1;
+    RadarChart.defaultConfig.minValue = 0;
+    RadarChart.defaultConfig.maxValue = 110;
   </script>
 
   <!-- rendering radar chart -->
@@ -237,18 +258,37 @@
     function render(data) {
       var scaledData = scaleValues(data);
 
+      //draw radar chart
       var chart = RadarChart.chart();
       var cfg = chart.config(); // retrieve default config
+      var svgWidth = cfg.w + 100;
+      var svgHeight = cfg.h + 20;
       var svg = d3.select('#overviewRadarSVG')
-        .attr('width', cfg.w + cfg.w + 50)
-        .attr('height', cfg.h + cfg.h / 4);
+        .attr('width', svgWidth)
+        .attr('height', svgHeight);
+      
       svg.select('#radarG')
         .classed('single', 1)
         .datum(scaledData).call(chart);
 
-      var legendG = d3.select('#legendG');
-      legendG.append('circle').attr('class','tree circle');
-      legendG.attr('transform',`translate(${cfg.w},10)`);
+      //configure details
+      //set legends on radar chart in the middle
+      d3.selectAll('.radar-chart .axis .legend')
+        .classed('left', 0)
+        .classed('right', 0)
+        .classed('middle', 1);
+      //set the radar chart group in the center of SVG
+      svg.select('#radarChartG')
+        .attr('transform', `translate(${(svgWidth - cfg.w)/2}, 0)`);
+
+      //TODO:give mouseon effect to axis legned
+      //with description and range of the axis
+      //ex.
+      // pupil dilation
+      // average pupil dilation through task
+      // axis range 0 ~ 0.2mm
+      //TODO select legend
+      var axisLegends = d3.selectAll('.radar-chart .axis .legend');
     }
 
     render(data_generalOnt);
