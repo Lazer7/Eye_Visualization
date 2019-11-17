@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
+  <meta name="description" content="Overview of eye tracking data for usablility on different visualizations">
+  <meta name="author" content="Sella Bae">
   <title>Overview Radar</title>
+
   <!-- Bootstrap -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -12,6 +15,7 @@
   body {
     padding: 20px;
   }
+  /* makes the texts undraggable */
   .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -20,6 +24,10 @@
     -ms-user-select: none;
     user-select: none;
   }
+  svg text{
+    font-weight: 300;
+  }
+  /* radar chart area */
   .radar-chart .area {
     fill-opacity: 0.7;
   }
@@ -29,79 +37,101 @@
   .radar-chart.focus .area.focused {
     fill-opacity: 0.9;
   }
-  .area.tree, .tree .circle {
-    /* fill: rgb(255, 115, 0); */
+  /* tree and graph colors */
+  .area.tree, .tree .circle, .treeLegend {
     fill: red;
     stroke: none;
   }
-  .area.graph, .graph .circle {
-    /* fill: rgb(0, 211, 158); */
+  .area.graph, .graph .circle, .graphLegend {
     fill: blue;
     stroke: none;
   }
-  .treeLegend {
-    fill: red;
-  }
-  .graphLegend {
-    fill: blue;
-  }
+  /* radar chart axis */
   .radar-chart .axis .legend {
     font-size: 1em;
     text-anchor: middle;
+    font-weight: lighter;
+  }
+  .radar-chart .axis .legend:hover{
+    font-size: 1.05em;
+    font-weight: bolder;
+  }
+  #axisTooltip {
+    color: rgb(74, 74, 74);
+    background: white;
+    border-top: 1px solid gray;
+    padding: 3px;
+    opacity: 1;
+    position: absolute;
+    z-index: 10;
+    line-height: 1.3;
+    visibility: hidden;
+    font-size: 0.9em;
   }
   </style>
 </head>
 
 
-<body>
-  <!-- title -->
-  <h2>Overview Comparison</h2>
-  <!-- buttons -->
-  <div id="optionDiv" class="">
-    <button id="generalBtn" class="btn btn-sm btn-secondary"
-      onclick="changeOntology('general')">
-      General
-    </button>
-    <button id="generalBtn" class="btn btn-sm btn-secondary"
-    onclick="changeOntology('expert')">
-      Expert
-    </button>
-    <p id="ontologyLabel" class="pt-2">General Ontology</p>
+<body class="">
+  <div class="flex">
+    <!-- page title -->
+    <div id="headerDiv" class="">
+      <p class="h2">Overview Comparison</p>
+    </div>
+    <!-- buttons -->
+    <div id="optionDiv" class="">
+      <button id="generalBtn" class="btn btn-sm btn-secondary"
+        onclick="changeOntology('general')">
+        General
+      </button>
+      <button id="generalBtn" class="btn btn-sm btn-secondary"
+      onclick="changeOntology('expert')">
+        Expert
+      </button>
+    </div>
   </div>
   <!-- svg -->
-  <div id="svgDiv" class="p-2">
+  <div id="svgDiv" class="">
+    <p id="ontologyLabel" class="h4 pt-4 mb-2">
+      General Ontology
+    </p>
     <svg id="overviewRadarSVG" class="unselectable">
       <g id="radarChartG" transform='translate(10,0)'>
+        
         <g id="radarG"></g>
-        <g id="legendG" transform='translate(10,0)'>
-          <g id="legendTree" transform='translate(0,10)'>
-            <circle cy='3' r='6' class="treeLegend"></circle>
-            <text x='15' y='6'>tree</text>
+
+        <g id="legendG" transform='translate(-20,10)'>
+          <g id="legendTree" transform='translate(0,0)'>
+            <circle cy='6' r='6' class="treeLegend"></circle>
+            <text x='12' y='10'>tree</text>
           </g>
-          <g id="legendTree" transform='translate(0,30)'>
-            <circle cy='3' r='6' class="graphLegend"></circle>
-            <text x='15' y='6'>graph</text>
+          <g id="legendTree" transform='translate(0,20)'>
+            <circle cy='6' r='6' class="graphLegend"></circle>
+            <text x='12' y='10'>graph</text>
           </g>
         </g>
+
       </g>
     </svg>
+    <div id="axisTooltip"></div>
   </div>
 
 
-  <!-- SCRIPT ----------------------------------------------->
+  <!-- SCRIPT ------------------------------------------------------------------------------->
 
   <script src="https://d3js.org/d3.v3.js"></script>
   <!-- <script src="https://d3js.org/d3.v5.min.js"></script>     -->
   <script src="https://rawgit.com/tpreusse/radar-chart-d3/master/src/radar-chart.js"></script>
 
 
+  <!-- DATA -->
   <!-- <script src="Data/overview_data.js"></script> -->
   <script>
     var data_generalOnt = [
         {
           className: 'graph',
           axes: [
-            {axis: "task success", value: 0.5007}, 
+            {axis: "success", value: 0.5007}, 
             {axis: "time", value: 22.0}, 
             {axis: "fixations", value: 2946.8667}, 
             {axis: "scanpath", value: 423643.0667},  
@@ -114,7 +144,7 @@
         {
           className: 'tree',
           axes: [
-            {axis: "task success", value: 0.495}, 
+            {axis: "success", value: 0.495}, 
             {axis: "time", value: 17.625}, 
             {axis: "fixations", value: 2186.0}, 
             {axis: "scanpath", value: 325244.0625},  
@@ -129,7 +159,7 @@
         {
             className: 'graph',
             axes: [
-              {axis: "task success", value: 0.4081}, 
+              {axis: "success", value: 0.4081}, 
               {axis: "time", value: 35.1875}, 
               {axis: "fixations", value: 4281.25}, 
               {axis: "scanpath", value: 545657.3125},  
@@ -142,7 +172,7 @@
         {
             className: 'tree',
             axes: [
-              {axis: "task success", value: 0.514}, 
+              {axis: "success", value: 0.514}, 
               {axis: "time", value: 24.6667}, 
               {axis: "fixations", value: 3133.9333}, 
               {axis: "scanpath", value: 388910.7333},  
@@ -155,9 +185,94 @@
     ];
   </script>
 
+  <!-- description for each axis -->
+  <script>
+    var axisInfo = [
+      { axis: "success",
+        description: "completion of task",
+        range: "0 - 100",
+        unit: "%"
+      },
+      { axis: "time",
+        description: "time on the task",
+        range: "0 - 36",
+        unit: "min"
+      },
+      { axis: "fixations",
+        description: "count of fixation points",
+        range: "0 - 4,282",
+        unit: ""
+      },
+      { axis: "scanpath",
+        description: "sum of all saccadic length",
+        range: "0 - 545,658",
+        unit: ""
+      },
+      { axis: "avg saccadic length",
+        description: "average length of one fixation to another",
+        range: "0 - 151",
+        unit: ""    //NOTE: mm? px?
+      },
+      { axis: "convexhull",
+        description: "area of entire eye movements",
+        range: "0 - 4,080",
+        unit: ""    //NOTE: better to know if mm²
+      },
+      { axis: "clicks",
+        description: "count of mouse clicks",
+        range: "0 - 747",
+        unit: ""
+      },
+      { axis: "pupil dilation",
+        description: "average pupil dilation throughout the task",
+        range: "0 - 0.2",
+        unit: "mm"
+      }
+    ];
+
+    function getAxisInfo(axis)
+    {
+      let info = axisInfo.find(o => o.axis === axis);
+      let infoMsg = info.description
+            + "<br>axis range: " + info.range + info.unit;
+      return infoMsg;
+    }
+  </script>
+
+  <script>
+    function showTooltip(evt, text)
+    {
+      let msg = (text==undefined) ? 'msg' : text;
+      //Gets absolute coordinates of the target element
+      let brect = evt.target.getBoundingClientRect();
+      //Shows tooltip
+      let tooltip = d3.select('#axisTooltip')
+        .html(msg)
+        .style('visibility', 'visible')
+        .style("left", (brect.x+0)+"px")
+        .style("top", (brect.y+22)+"px");
+      
+      //Gets tagName and textContent of the event target
+      console.log(`showTooltip() tagName:${evt.target.tagName}, text:${evt.target.textContent}`);
+      // //Gets x,y coordinates of the event on the screen
+      // console.log(`clientXY: ${evt.clientX},${evt.clientY}`);
+      // console.log(`pageXY: ${evt.pageX},${evt.pageY}`);
+      // //Gets relative coordinates within svg
+      // let bbox = evt.target.getBBox();
+      // console.log(`target bbox: ${bbox.x},${bbox.y}`);
+      // console.log(`parentElement: ${evt.target.parentElement.nodeName}`);
+
+    }
+    function hideTooltip() {
+      let tooltip = d3.select('#axisTooltip')
+        .style('visibility', 'hidden');
+    }
+  </script>
+
+  <!-- Switching Data for different ontologies -->
   <script>
     function changeOntology(type){
-      var ontologyLabel = d3.select('#ontologyLabel');
+      let ontologyLabel = d3.select('#ontologyLabel');
       if(type == "general") {
         ontologyLabel.text('General Ontology');
         render(data_generalOnt);
@@ -170,7 +285,7 @@
     }
   </script>
 
-  <!-- scaling value for radar chart -->
+  <!-- Scaling data for values of radar chart -->
   <script>
     function scaleValues(data)
     {
@@ -197,6 +312,7 @@
           .range([0, 100])
           .nice();
       // TODO: var successMax = d3.max()
+      // WARN: hard coded max values
       var successScale = scale.copy().domain([0, 1]);
       var taskTimeScale = scale.copy().domain([0, 36]);
       var totalFixScale = scale.copy().domain([0, 4282]);
@@ -209,7 +325,7 @@
       //scale the values on axes
       scaledData.forEach(function(d,i){
         d.axes.forEach(function(axis){
-          if (axis.axis == "task success"){
+          if (axis.axis == "success"){
             axis.value = successScale(axis.value);
           }
           else if (axis.axis == "time"){
@@ -242,53 +358,56 @@
     }
   </script>
   
-  <!-- radar chart configuration -->
+  <!-- Configuring radar chart -->
   <script>
-    RadarChart.defaultConfig.color = function() {};
-    RadarChart.defaultConfig.radius = 6;
-    RadarChart.defaultConfig.w = 500;
-    RadarChart.defaultConfig.h = 500;
-    RadarChart.defaultConfig.transitionDuration = 500;
-    RadarChart.defaultConfig.minValue = 0;
-    RadarChart.defaultConfig.maxValue = 110;
+    var chartOptions = {
+      color: function() {},
+      radius: 6,
+      w: 500,
+      h: 500,
+      transitionDuration: 500,
+      minValue: 0,
+      maxValue: 100,
+      levels: 4,
+      factor: 0.90,
+      factorLegend: 1,
+    };
   </script>
 
-  <!-- rendering radar chart -->
+  <!-- Rendering radar chart -->
   <script>
     function render(data) {
       var scaledData = scaleValues(data);
 
-      //draw radar chart
-      var chart = RadarChart.chart();
+      //Draws radar chart
+      var chart = RadarChart.chart().config(chartOptions);
       var cfg = chart.config(); // retrieve default config
-      var svgWidth = cfg.w + 100;
+      var svgWidth = cfg.w + 80;
       var svgHeight = cfg.h + 20;
       var svg = d3.select('#overviewRadarSVG')
         .attr('width', svgWidth)
         .attr('height', svgHeight);
-      
       svg.select('#radarG')
-        .classed('single', 1)
         .datum(scaledData).call(chart);
 
-      //configure details
-      //set legends on radar chart in the middle
+      //Configures details
+      //Sets legends on radar chart in the middle
       d3.selectAll('.radar-chart .axis .legend')
         .classed('left', 0)
         .classed('right', 0)
         .classed('middle', 1);
-      //set the radar chart group in the center of SVG
+      //Sets the radar chart group in the center of SVG
       svg.select('#radarChartG')
         .attr('transform', `translate(${(svgWidth - cfg.w)/2}, 0)`);
 
-      //TODO:give mouseon effect to axis legned
-      //with description and range of the axis
-      //ex.
-      // pupil dilation
-      // average pupil dilation through task
-      // axis range 0 ~ 0.2mm
-      //TODO select legend
-      var axisLegends = d3.selectAll('.radar-chart .axis .legend');
+      //Gives mouseover event axis labels
+      var axisLabels = d3.selectAll('.radar-chart .axis .legend');
+      axisLabels.each(function(d) {
+        d3.select(this)
+          .attr('onmouseover', `showTooltip(evt, '${getAxisInfo(this.textContent)}');`)
+          .attr('onmouseout', "hideTooltip();");
+      });
+        
     }
 
     render(data_generalOnt);
